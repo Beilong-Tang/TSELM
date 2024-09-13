@@ -1,7 +1,7 @@
 # TSELM: Target Speaker Extraction using Discrete Tokens and Language Models
 Official Implementation of TSELM: Target Speaker Extraction using Discrete Tokens and Language Models
 
- [**Paper**]()
+ [**Paper**](https://arxiv.org/abs/2409.07841)
 | [**Demo**](https://beilong-tang.github.io/TSELM.demo/)
 
 ## Abstract
