@@ -58,10 +58,10 @@ if __name__ == "__main__":
     os.makedirs(p("list", "libri2mix_dev"), exist_ok=True)
     os.makedirs(p("list", "libri2mix_test"), exist_ok=True)
 
-    dev_audio = args.lm_dev
-    test_audio = args.lm_test
+    dev_audio = args.libri2mix_dev
+    test_audio = args.libri2mix_test
 
-    generate_training_pt(args.ls100, args.ls360)
+    generate_training_pt(args.librispeech_train_100, args.librispeech_train_360)
 
     for t in ["aux_s1", "mix_clean", "s1"]:
         for d, n in [(dev_audio, "libri2mix_dev"), (test_audio, "libri2mix_test")]:

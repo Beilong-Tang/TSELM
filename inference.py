@@ -42,7 +42,7 @@ if __name__ == "__main__":
     parser.add_argument("-d", "--device", type=str, required=True)
     parser.add_argument("-o", "--output", type=str, required=True)
     args = parser.parse_args()
-    torch.cuda.set_device(args.d)
+    torch.cuda.set_device(args.device)
     main(args)
 
     pass
