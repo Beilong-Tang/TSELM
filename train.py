@@ -146,7 +146,7 @@ if __name__ == "__main__":
         "--dist-backend", default="nccl", type=str, help="distributed backend"
     )
     args = parser.parse_args()
-    os.makedirs(args.ckpt, exist_ok=True)
+    os.makedirs(args.ckpt_path, exist_ok=True)
     with open(args.config_path, "r") as f:
         config_base = AttrDict(**yaml.load(f, Loader=yaml.BaseLoader))
     os.environ["CUDA_VISIBLE_DEVICES"] = ",".join([str(i) for i in config_base.gpus])
