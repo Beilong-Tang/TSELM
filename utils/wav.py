@@ -21,7 +21,7 @@ def squeeze(*audio):
         res.append(a.squeeze())
 
 
-def truc_wav(*audio: torch.Tensor, length=64000):
+def truc_wav(*audio: torch.Tensor, length):
     """
     Given a list of audio with the same length as arguments, chunk the audio into a given length.
     Note that all the audios will be chunked using the same offset
