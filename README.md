@@ -20,4 +20,8 @@ and comparable results in speech intelligibility.
 
 ## Pre-requisites
 
+Make sure the audio is 16khz. 
+
+
+## Usage 
 
