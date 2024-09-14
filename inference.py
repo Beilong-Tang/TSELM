@@ -36,11 +36,11 @@ def main(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.parse_args("-scp", "--scp_dir", type=str, required=True)
-    parser.parse_args("-config", "--config_path", type=str, required=True)
-    parser.parse_args("-ckpt", "--ckpt_path", type=str, required=True)
-    parser.parse_args("-d", "--device", type=str, required=True)
-    parser.parse_args("-o", "--output", type=str, required=True)
+    parser.add_argument("-scp", "--scp_dir", type=str, required=True)
+    parser.add_argument("-config", "--config_path", type=str, required=True)
+    parser.add_argument("-ckpt", "--ckpt_path", type=str, required=True)
+    parser.add_argument("-d", "--device", type=str, required=True)
+    parser.add_argument("-o", "--output", type=str, required=True)
     args = parser.parse_args()
     torch.cuda.set_device(args.d)
     main(args)

@@ -25,3 +25,5 @@ Make sure the audio is 16khz.
 
 ## Usage 
 
+
+python inference.py -scp /public/home/qinxy/bltang/data/LibriMix/Libri2Mix/wav16k/min/lists/dev -config ./config/tselm_l.yaml -ckpt /public/home/qinxy/bltang/ml_framework_slurm/exp/tsslm_final/discrete_k_1000/ckpt/conf_l/best.pth -d 0 -o /public/home/qinxy/bltang/TSELM/output/tselm_l
