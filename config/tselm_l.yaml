@@ -10,14 +10,34 @@ seed: 1234
 gpus: [0,1,2,3]
 port: 12355
 
+### data ###
+tr_dataset: !name:dataset.TargetDMDataset ## libri speech DM dataset
+  scp_path: /public/home/qinxy/zbang/data/LibriSpeech/scp/train/train_clean_100_360.pt
+  epoch_num: 5_0000
+  mix_length: 48080
+  regi_length: 64080
+cv_dataset: !name:dataset.TargetDataset
+  mix_path: "/public/home/qinxy/bltang/data/LibriMix/Libri2Mix/wav16k/min/lists/test/mix.scp"
+  regi_path: "/public/home/qinxy/bltang/data/LibriMix/Libri2Mix/wav16k/min/lists/test/bltang/regi.scp"
+  clean_path: "/public/home/qinxy/bltang/data/LibriMix/Libri2Mix/wav16k/min/lists/test/s1.scp"
+  mix_length: 48080
+  regi_length: 64080
+batch_size: 128
+num_workers: 2
+batch_size_eval: 256
+
+### log ###
+log_interval: 5
+
+
 ### train ###
-trainer: !name:exp.tsslm.discrete_k_1000.trainer.Trainer
+trainer: !name:exp.tsslm.trainer.Trainer
 epoch: 100
 find_unused: False
-pre_eval: True
-best_field: error
+pre_eval: True # before training, do a pre evaluation to see if anything with the evaluation is right
+best_field: error # Save the best model according to what field
 best_save_type: descend #[descend, ascend] ## descend means that the the lower the value the best_field, the better it will be
-max_ckpt: 1
+max_ckpt: 1 # The maximum ckpt to keep
 
 ### optim and scheduler ###
 lr: 0.0005
@@ -106,7 +126,7 @@ lm_model: !new:speechbrain.lobes.models.transformer.TransformerASR.TransformerAS
     normalize_before: True
     causal: False
 
-model: !new:exp.tsslm.discrete_k_1000.model.Model
+model: !new:exp.tselm.model.Model
   hifi_gan: !ref <hifi_gan>
   discrete_ssl: !ref <discrete_ssl>
   ssl_layers: !ref <ssl_layers>
@@ -120,23 +140,3 @@ model: !new:exp.tsslm.discrete_k_1000.model.Model
   film: !ref <FiLM>
   fusion_norm: !ref <fusion_norm>
   share_emb: False
-
-
-### data ###
-tr_dataset: !name:data.target_dataset.TargetDMDataset ## libri speech DM dataset
-  scp_path: /public/home/qinxy/zbang/data/LibriSpeech/scp/train/train_clean_100_360.pt
-  epoch_num: 5_0000
-  mix_length: 48080
-  regi_length: 64080
-cv_dataset: !name:data.target_dataset.TargetDataset
-  mix_path: "/public/home/qinxy/bltang/data/LibriMix/Libri2Mix/wav16k/min/lists/test/mix.scp"
-  regi_path: "/public/home/qinxy/bltang/data/LibriMix/Libri2Mix/wav16k/min/lists/test/bltang/regi.scp"
-  clean_path: "/public/home/qinxy/bltang/data/LibriMix/Libri2Mix/wav16k/min/lists/test/s1.scp"
-  mix_length: 48080
-  regi_length: 64080
-batch_size: 128
-num_workers: 2
-batch_size_eval: 256
-
-### log ###
-log_interval: 5
