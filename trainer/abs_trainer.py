@@ -46,7 +46,6 @@ class AbsTrainer:
         self.ckpt_dir = ckpt_path
         self.epoch_start = 0
         self.step = 0
-        self.cv_log = {}
         self.optim = optim
         self.device = device
         self.rank = rank
@@ -73,7 +72,6 @@ class AbsTrainer:
             self.optim.load_state_dict(ckpt["optim"])
             self.epoch_start = ckpt["epoch"] + 1
             self.step = ckpt["step"]
-            self.cv_log = ckpt["cv_log"]
             self.best_value = ckpt[self.best_field]
             self.optim.load_state_dict(ckpt["optim"])
             self.scheduler = ckpt["scheduler"]

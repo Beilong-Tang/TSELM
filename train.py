@@ -17,19 +17,28 @@ from torch.utils.data.distributed import DistributedSampler
 import torch.multiprocessing as mp
 import torch.distributed as dist
 
-###
 from torch.utils.data import DataLoader
 from hyperpyyaml import load_hyperpyyaml
-from utils.env import AttrDict
+from utils import AttrDict
 
-### add the path to the funcodec library
+def set_random_seed(seed):
+    os.environ["PYTHONHASHSEED"] = str(seed)
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed(seed)
+    torch.cuda.manual_seed_all(seed)
+    torch.backends.cudnn.deterministic = True
 
+def seed_worker(worker_id):
+    seed = int(os.environ["seed_p_t"])
+    worker_seed = torch.initial_seed() % 2**32
+    set_random_seed(worker_seed + seed)
 
 ## ddp process
 def setup(rank, world_size, backend, port=12355):
     os.environ["MASTER_ADDR"] = "127.0.0.1"
     os.environ["MASTER_PORT"] = str(port)
-
     # initialize the process group
     dist.init_process_group(backend, rank=rank, world_size=world_size)
 
@@ -37,24 +46,7 @@ def setup(rank, world_size, backend, port=12355):
 def cleanup():
     dist.destroy_process_group()
 
-
-def main(rank, args):
-    with open(args.config_path, "r") as f:
-        config_base = yaml.load(f, Loader=yaml.BaseLoader)
-    config_base = AttrDict(**config_base)
-    config_base.world_size = len(config_base.gpus)
-    SEED = int(config_base.seed)
-    random.seed(SEED + rank)
-    np.random.seed(SEED)
-    torch.manual_seed(SEED)
-    torch.cuda.manual_seed_all(SEED)
-    torch.backends.cudnn.deterministic = True
-    torch.backends.cudnn.benchmark = False
-
-    print(f"rank {rank} of world_size {config_base.world_size} started...")
-    ## set up logger before the config
-    setup(rank, config_base.world_size, args.dist_backend, port=int(config_base.port))
-    ## logger
+def setup_logger(args):
     now = datetime.datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
     log_dir = args.log
     print(f"logging dir: {log_dir}")
@@ -66,35 +58,51 @@ def main(rank, args):
     )
     logger = logging.getLogger()
     logger.info("logger initialized")
-    for f in config_base.sys_path:
-        sys.path.append(f)
+    return logger
+
+def setup_seed(seed, rank):
+    SEED = int(seed)
+    random.seed(SEED + rank)
+    np.random.seed(SEED)
+    torch.manual_seed(SEED)
+    torch.cuda.manual_seed_all(SEED)
+    torch.backends.cudnn.deterministic = True
+    torch.backends.cudnn.benchmark = False
+    pass
+
+
+def main(rank, args):
     with open(args.config_path, "r") as f:
-        config = load_hyperpyyaml(f)
-    config = AttrDict(**config)
-    config.world_size = len(config.gpus)
-    ###
-    # Set the CUDA device based on local_rank
-    config.gpu = rank
-    config.rank = rank
+        config_base = AttrDict(**yaml.load(f, Loader=yaml.BaseLoader))
+        config_base.world_size = len(config_base.gpus)
+    print(f"rank {rank} of world_size {config_base.world_size} started...")
+    setup_seed(config_base.seed, rank)
+    setup(rank, config_base.world_size, args.dist_backend, port=int(config_base.port))
+    ## logger
+    logger = setup_logger(args)
+    with open(args.config_path, "r") as f:
+        config = AttrDict(**load_hyperpyyaml(f))
+        config.world_size = len(config.gpus)
     torch.cuda.set_device(rank)
     torch.cuda.empty_cache()
     ### prepare model
-    model = config.model.cuda(config.gpu)
-    model.to(config.gpu)
+    model = config.model.cuda(rank)
+    model.to(rank)
 
     model = DDP(
-        model, device_ids=[config.gpu], find_unused_parameters=config.find_unused
+        model, device_ids=[rank], find_unused_parameters=config.find_unused
     )
-    tr_dataset = config.tr_dataset(rank=config.rank)
+    tr_dataset = config.tr_dataset(rank=rank)
     tr_data = DataLoader(
         tr_dataset,
         batch_size=config.batch_size // config.world_size,
         shuffle=False,
-        sampler=DistributedSampler(dataset=tr_dataset, seed=config.sampler_seed),
+        sampler=DistributedSampler(dataset=tr_dataset, seed=config.sampler_seed + rank),
         num_workers=config.num_workers,
         collate_fn=config.collate_fn,
+        worker_init_fn=seed_worker,
     )
-    cv_dataset = config.cv_dataset(rank=config.rank)
+    cv_dataset = config.cv_dataset(rank=rank)
     cv_data = DataLoader(
         cv_dataset,
         batch_size=(
@@ -105,6 +113,7 @@ def main(rank, args):
         shuffle=False,
         num_workers=config.num_workers,
         collate_fn=config.collate_fn,
+        worker_init_fn=seed_worker,
     )
 
     optim = config.optim(params=filter(lambda p: p.requires_grad, model.parameters()))
@@ -118,8 +127,8 @@ def main(rank, args):
         optim,
         config,
         args.ckpt_path,
-        config.gpu,
-        config.rank,
+        rank,
+        rank,
         logger,
     )
     print("start training model")
@@ -138,10 +147,8 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
     with open(args.config_path, "r") as f:
-        config_base = yaml.load(f, Loader=yaml.BaseLoader)
-    config_base = AttrDict(**config_base)
-    config_base.world_size = len(config_base.gpus)
+        config_base = AttrDict(**yaml.load(f, Loader=yaml.BaseLoader))
     os.environ["CUDA_VISIBLE_DEVICES"] = ",".join([str(i) for i in config_base.gpus])
-    mp.spawn(main, args=(args,), nprocs=config_base.world_size, join=True)
+    mp.spawn(main, args=(args,), nprocs=len(config_base.gpus), join=True)
 
     pass
