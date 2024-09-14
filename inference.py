@@ -10,17 +10,17 @@ from dataset import TargetDataset
 
 
 def main(args):
-    scp = args.scp
+    scp = args.scp_dir
     mix_scp = op.join(scp, "mix_clean.scp")
     s1_scp = op.join(scp, "s1.scp")
     aux_s1_scp = op.join(scp, "aux_s1.scp")
     dataset = TargetDataset(
         mix_scp, aux_s1_scp, s1_scp, -1, mix_length=None, regi_length=None
     )
-    with open(args.config, "r") as f:
+    with open(args.config_path, "r") as f:
         config = load_hyperpyyaml(f)
     model:nn.Module = config.get("model")
-    ckpt = torch.load(args.ckpt, map_location=args.device)
+    ckpt = torch.load(args.ckpt_path, map_location=args.device)
     model.cuda(args.device)
     model.load_state_dict(ckpt['model_state_dict'], strict = False)
     with torch.no_grad():
@@ -30,7 +30,7 @@ def main(args):
             output = model.inference(mix, regi) #[1,T]
             output = output.cpu()
             name = mix_path.split("/")[-1]
-            torchaudio.save(op.join(args.o,name), output, 16000)
+            torchaudio.save(op.join(args.output,name), output, 16000)
     print("done")
 
 
