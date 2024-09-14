@@ -20,6 +20,7 @@ import torch.distributed as dist
 from torch.utils.data import DataLoader
 from hyperpyyaml import load_hyperpyyaml
 from utils import AttrDict
+from utils.env import AttrDict
 
 def set_random_seed(seed):
     os.environ["PYTHONHASHSEED"] = str(seed)
@@ -31,9 +32,8 @@ def set_random_seed(seed):
     torch.backends.cudnn.deterministic = True
 
 def seed_worker(worker_id):
-    seed = int(os.environ["seed_p_t"])
     worker_seed = torch.initial_seed() % 2**32
-    set_random_seed(worker_seed + seed)
+    set_random_seed(worker_seed)
 
 ## ddp process
 def setup(rank, world_size, backend, port=12355):

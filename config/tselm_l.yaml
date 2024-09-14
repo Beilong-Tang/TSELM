@@ -34,7 +34,7 @@ log_interval: 5
 trainer: !name:exp.tselm.trainer.Trainer
 epoch: 100
 find_unused: False
-pre_eval: True # before training, do a pre evaluation to see if anything with the evaluation is right
+pre_eval: False # before training, do a pre evaluation to see if anything with the evaluation is right
 best_field: error # Save the best model according to what field
 best_save_type: descend #[descend, ascend] ## descend means that the the lower the value the best_field, the better it will be
 max_ckpt: 1 # The maximum ckpt to keep

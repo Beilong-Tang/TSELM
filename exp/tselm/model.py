@@ -5,7 +5,7 @@ import torch
 import torch.nn.functional as F
 import copy
 
-from utils import truc_wav, split_audio
+from utils.wav import truc_wav, split_audio
 
 
 

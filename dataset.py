@@ -2,7 +2,8 @@ import torch
 from torch.utils.data import Dataset
 import random
 import torchaudio
-from utils import truc_wav, get_source_list
+from utils.wav import truc_wav
+from utils.load_scp import get_source_list
 
 
 def _activelev(*args):
