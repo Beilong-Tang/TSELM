@@ -85,13 +85,13 @@ discrete_ssl: !new:models.discrete_ssl.DiscreteSSL
   kmeans_dataset: LibriSpeech-100-360-500
   kmeans_path: /public/home/qinxy/bltang/pretrain_dasb_tokenizer/models/SSL_Quantization
   num_clusters: !ref <num_clusters>
-
-attention_mlp: !new:exp.dasb.blind.wavlm.modules.AttentionMLP
+  
+attention_mlp: !new:exp.tselm.modules.AttentionMLP
   input_dim: !ref <embedding_dim>
   hidden_dim: !ref <embedding_dim>
 
-embedding: !new:exp.dasb.blind.wavlm.modules.Discrete_EmbeddingLayer
-  num_codebooks: !apply:exp.dasb.blind.wavlm.utils.get_len 
+embedding: !new:exp.tselm.modules.Discrete_EmbeddingLayer
+  num_codebooks: !apply:exp.tselm.utils.get_len 
     array: !ref <ssl_layers>
   vocab_size: !ref <num_clusters>
   emb_dim: !ref <embedding_dim>
@@ -99,7 +99,7 @@ embedding: !new:exp.dasb.blind.wavlm.modules.Discrete_EmbeddingLayer
 
 head: !new:torch.nn.Linear 
   in_features: !ref <d_model>
-  out_features: !apply:exp.dasb.blind.wavlm.utils.len_ 
+  out_features: !apply:exp.tselm.utils.len_ 
     [1, !ref <ssl_layers>, !ref <num_clusters>]
 
 lm_model: !new:speechbrain.lobes.models.transformer.TransformerASR.TransformerASR
@@ -125,9 +125,7 @@ model: !new:exp.tselm.model.Model
   lm_model: !ref <lm_model>
   embedding: !ref <embedding>
   head: !ref <head>
-  base_loss: !name:exp.dasb.blind.wavlm.loss.base_loss_ce
   vocab_size: !ref <num_clusters>
   fusion: !ref <cross_attention_model>
   film: !ref <FiLM>
   fusion_norm: !ref <fusion_norm>
-  share_emb: False

@@ -8,6 +8,7 @@ import copy
 from utils import truc_wav, split_audio
 
 
+
 class Model(nn.Module):
     def __init__(
         self,
@@ -22,7 +23,6 @@ class Model(nn.Module):
         film: nn.Module,
         fusion_norm: nn.Module,
         vocab_size: int,
-        share_emb=True,
         mix_continuous=False,
         concat_regi=True,
     ):
@@ -36,10 +36,7 @@ class Model(nn.Module):
         self.head = head
         self.lm = lm_model
         self.attention_mlp_regi = copy.deepcopy(attention_mlp)
-        if not share_emb:
-            self.embedding_regi = copy.deepcopy(embedding)
-        else:
-            self.embedding_regi = embedding
+        self.embedding_regi = copy.deepcopy(embedding)
         self.concat_regi = concat_regi
         self.mix_continuous = mix_continuous
         self.fusion = fusion
