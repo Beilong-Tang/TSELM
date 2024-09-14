@@ -22,9 +22,9 @@ cv_dataset: !name:dataset.TargetDataset
   clean_path: "/public/home/qinxy/bltang/data/LibriMix/Libri2Mix/wav16k/min/lists/test/s1.scp"
   mix_length: 48080
   regi_length: 64080
-batch_size: 128
+batch_size: 64
 num_workers: 2
-batch_size_eval: 256
+batch_size_eval: 128
 
 ### log ###
 log_interval: 5
