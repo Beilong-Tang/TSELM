@@ -1,4 +1,4 @@
-## inference libri2mix test set
+## inference on libri2mix test set
 import argparse
 import tqdm
 import os.path as op

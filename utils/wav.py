@@ -33,6 +33,7 @@ def truc_wav(*audio: torch.Tensor, length=64000):
         A list of chuncked audios
     """
     audio_len = audio[0].size(0)  # [T]
+    print(audio_len)
     res = []
     if length == None:
         for a in audio:
