@@ -91,9 +91,7 @@ class TargetDMDataset(Dataset):
             regi_audio = truc_wav(regi_audio, length=self.mix_length)
         spk1_audio = truc_wav(spk1_audio, length=self.mix_length)
         spk2_audio = truc_wav(spk2_audio, length=self.mix_length)
-        mix, clean, regi = generate_target_audio(
-            spk1_audio, spk2_audio, regi_audio
-        )
+        mix, clean, regi = generate_target_audio(spk1_audio, spk2_audio, regi_audio)
         return mix, clean, regi
 
 

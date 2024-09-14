@@ -12,7 +12,7 @@ def p(*args):
     return op.join(BASE_PATH, *args)
 
 
-def generate_training_pt(train_100:str, train_360:str):
+def generate_training_pt(train_100: str, train_360: str):
     print("generate training scp")
     spk_dict = {}
     train_audio = [train_100, train_360]

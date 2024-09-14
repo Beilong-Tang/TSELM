@@ -8,7 +8,6 @@ import copy
 from utils.wav import truc_wav, split_audio
 
 
-
 class Model(nn.Module):
     def __init__(
         self,
@@ -93,7 +92,7 @@ class Model(nn.Module):
         toks = toks.movedim(-2, -3).contiguous()  # [B,S,N,K]
         rec_sig = self.toks_to_sig(toks.flatten(end_dim=1))  # [BS,T]
         return rec_sig
-    
+
     def _error(self, out_toks, true_toks):
         """
         Calculate the error in percentage (0-100)
@@ -133,7 +132,6 @@ class Model(nn.Module):
         """
         mix: [1,T] torch audio 2d
         regi: [1,T] torch audio 2d used as register audio
-        hifi: hifi_gan for reconstructingt he audio
         """
         mix_array = split_audio(mix.squeeze(0), 48080)  # [T]
         regi = truc_wav(regi.squeeze(0), 64080).unsqueeze(0)  # [1,T]
@@ -200,11 +198,6 @@ class Model(nn.Module):
             ## training
             true_toks = self.sig_to_toks(clean)  # [B, N, K]
             loss = F.cross_entropy(probs.flatten(end_dim=-2), true_toks.flatten())
-            return (
-                loss,
-                out_toks,
-                true_toks,
-                self._error(out_toks, true_toks)
-            )
+            return (loss, out_toks, true_toks, self._error(out_toks, true_toks))
         else:
             return out_toks

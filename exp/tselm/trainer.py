@@ -1,6 +1,7 @@
 from trainer.abs_trainer import AbsTrainer
 import os.path as op
 
+
 class Trainer(AbsTrainer):
     def __init__(
         self,
@@ -47,7 +48,7 @@ class Trainer(AbsTrainer):
         optim.step()
         optim.zero_grad()
         if if_log:
-            return self.get_res(loss,  error)
+            return self.get_res(loss, error)
         return None
 
     def _eval_one_batch(self, data) -> dict:

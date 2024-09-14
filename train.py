@@ -21,6 +21,7 @@ from torch.utils.data import DataLoader
 from hyperpyyaml import load_hyperpyyaml
 from utils.env import AttrDict
 
+
 def set_random_seed(seed):
     os.environ["PYTHONHASHSEED"] = str(seed)
     random.seed(seed)
@@ -30,9 +31,11 @@ def set_random_seed(seed):
     torch.cuda.manual_seed_all(seed)
     torch.backends.cudnn.deterministic = True
 
+
 def seed_worker(worker_id):
     worker_seed = torch.initial_seed() % 2**32
     set_random_seed(worker_seed)
+
 
 ## ddp process
 def setup(rank, world_size, backend, port=12355):
@@ -44,6 +47,7 @@ def setup(rank, world_size, backend, port=12355):
 
 def cleanup():
     dist.destroy_process_group()
+
 
 def setup_logger(args):
     now = datetime.datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
@@ -58,6 +62,7 @@ def setup_logger(args):
     logger = logging.getLogger()
     logger.info("logger initialized")
     return logger
+
 
 # def setup_seed(seed, rank):
 #     SEED = int(seed)
@@ -88,9 +93,7 @@ def main(rank, args):
     model = config.model.cuda(rank)
     model.to(rank)
 
-    model = DDP(
-        model, device_ids=[rank], find_unused_parameters=config.find_unused
-    )
+    model = DDP(model, device_ids=[rank], find_unused_parameters=config.find_unused)
     tr_dataset = config.tr_dataset(rank=rank)
     tr_data = DataLoader(
         tr_dataset,

@@ -77,7 +77,7 @@ def load_freeze_model(model: nn.Module):
     return model
 
 
-def count_prams(model: nn.Module, ignore_freeze = True):
+def count_prams(model: nn.Module, ignore_freeze=True):
     if ignore_freeze:
         return sum([p.numel() for p in model.parameters() if p.requires_grad])
     else:
