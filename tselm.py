@@ -5,7 +5,6 @@ import torch
 import torch.nn.functional as F
 import copy
 
-
 from utils import truc_wav, split_audio
 
 class Model(nn.Module):
@@ -90,7 +89,7 @@ class Model(nn.Module):
         Args:
             toks: the tokens of shape [B,N,K]
         Returns:
-            audio: the audio of shape [B * S, T]
+            audio: the audio of shape [B, T]
         """
         toks = toks.unsqueeze(2)
         toks = toks.movedim(-2, -3).contiguous()  # [B,S,N,K]
