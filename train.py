@@ -59,15 +59,15 @@ def setup_logger(args):
     logger.info("logger initialized")
     return logger
 
-def setup_seed(seed, rank):
-    SEED = int(seed)
-    random.seed(SEED + rank)
-    np.random.seed(SEED)
-    torch.manual_seed(SEED)
-    torch.cuda.manual_seed_all(SEED)
-    torch.backends.cudnn.deterministic = True
-    torch.backends.cudnn.benchmark = False
-    pass
+# def setup_seed(seed, rank):
+#     SEED = int(seed)
+#     random.seed(SEED + rank)
+#     np.random.seed(SEED)
+#     torch.manual_seed(SEED)
+#     torch.cuda.manual_seed_all(SEED)
+#     torch.backends.cudnn.deterministic = True
+#     torch.backends.cudnn.benchmark = False
+#     pass
 
 
 def main(rank, args):
@@ -75,7 +75,7 @@ def main(rank, args):
         config_base = AttrDict(**yaml.load(f, Loader=yaml.BaseLoader))
         config_base.world_size = len(config_base.gpus)
     print(f"rank {rank} of world_size {config_base.world_size} started...")
-    setup_seed(config_base.seed, rank)
+    # setup_seed(config_base.seed, rank)
     setup(rank, config_base.world_size, args.dist_backend, port=int(config_base.port))
     ## logger
     logger = setup_logger(args)
