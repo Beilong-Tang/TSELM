@@ -1,7 +1,7 @@
 #1. Download LibriSpeech train-clean[100,360]
-storage_dir=$(pwd)/librispeech
-mkdir -p $storage_dir
+storage_dir=$1
 
+mkdir -p $storage_dir
 function LibriSpeech_clean100() {
 	if ! test -e $librispeech_dir/train-clean-100; then
 		echo "Download LibriSpeech/train-clean-100 into $storage_dir"
