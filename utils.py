@@ -1,6 +1,7 @@
-import torch 
+import torch
 import torch.nn.functional as F
 import random
+
 
 def truc_wav(audio: torch.Tensor, length=64000):
     """
@@ -32,11 +33,13 @@ def split_audio(audio, length=48000, pad_last=True):
         )
     return audio_array
 
+
 def dict_to_str(dictionary):
     res = ""
     for key, value in dictionary.items():
         res += f"{key} : {value}, "
     return res
+
 
 def save(path, content, max_ckpt=1):
     # if len(files_path) >= max_ckpt:
@@ -60,4 +63,3 @@ def save(path, content, max_ckpt=1):
             print("saving error")
             print(e)
     torch.save(content, path)
-
