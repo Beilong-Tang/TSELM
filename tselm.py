@@ -6,9 +6,8 @@ import torch.nn.functional as F
 import copy
 
 
-from utils.wav import truc_wav, split_audio
+from utils import truc_wav, split_audio
 from exp.dasb.blind.wavlm.model import Model as Base
-from utils.load_model import load_freeze_model
 
 class Model(nn.Module):
     def __init__(
@@ -29,8 +28,8 @@ class Model(nn.Module):
         concat_regi=True,
     ):
         super().__init__()
-        self.hifi_gan = load_freeze_model(hifi_gan)
-        self.discrete_ssl = load_freeze_model(discrete_ssl)
+        self.hifi_gan = hifi_gan
+        self.discrete_ssl = discrete_ssl
         self.ssl_layers = ssl_layers
         self.attention_mlp = attention_mlp
         self.embedding = embedding
@@ -83,6 +82,21 @@ class Model(nn.Module):
         self.hifi_gan.tokenize = False
         sig = self.hifi_gan(toks)[:, 0]  # [B,T]
         return sig
+
+    @torch.no_grad()
+    def recon(self, toks: torch.Tensor):
+        """
+        Reconstruct the audio using the token and vocoder.
+
+        Args:
+            toks: the tokens of shape [B,N,K]
+        Returns:
+            audio: the audio of shape [B * S, T]
+        """
+        toks = toks.unsqueeze(2)
+        toks = toks.movedim(-2, -3).contiguous()  # [B,S,N,K]
+        rec_sig = self.toks_to_sig(toks.flatten(end_dim=1))  # [BS,T]
+        return rec_sig
 
     def _emb(self, toks, embedding, attention_mlp):
         in_embs = embedding(toks)  # [B,N,K,H]

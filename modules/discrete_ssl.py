@@ -87,6 +87,10 @@ class DiscreteSSL(nn.Module):
             self.vocabularies.append(model.cluster_centers_)
 
         self.tokenizer = DiscreteSSLTokenizer(self.num_clusters)
+        ## evaluation
+        self.eval()
+        for p in self.parameters():
+            p.requires_grad = False
 
     def check_if_input_is_compatible(self, layers_num, num_clusters):
         """check if layer_number and num_clusters is consisntent with each other.
