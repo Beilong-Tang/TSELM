@@ -134,6 +134,7 @@ class Model(nn.Module):
         regi: [1,T] torch audio 2d used as register audio
         """
         mix_array = split_audio(mix.squeeze(0), 48080)  # [T]
+        print(regi.shape)
         regi = truc_wav(regi.squeeze(0), 64080).unsqueeze(0)  # [1,T]
         aux_list = []
         for audio in mix_array:

@@ -27,6 +27,7 @@ def main(args):
         for mix, _, regi, mix_path, _, _ in tqdm.tqdm(dataset):
             mix, regi = mix.to(args.device), regi.cuda(args.device)
             mix, regi = mix.unsqueeze(0), regi.unsqueeze(0) # [1, T]
+            print(regi.shape)
             output = model.inference(mix, regi) #[1,T]
             output = output.cpu()
             name = mix_path.split("/")[-1]
