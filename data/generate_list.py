@@ -12,9 +12,10 @@ def p(*args):
     return op.join(BASE_PATH, *args)
 
 
-def generate_training_pt():
+def generate_training_pt(train_100:str, train_360:str):
     print("generate training scp")
     spk_dict = {}
+    train_audio = [train_100, train_360]
     for t in train_audio:
         audio_files = glob.glob(op.join(t, "*", "*", "*.flac"))
         for a in tqdm.tqdm(audio_files):
@@ -39,7 +40,8 @@ def generate_scp(dataset_name: str, type: str, name: str):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("-ls", "--librispeech", type=str, required=True)
+    parser.add_argument("-ls100", "--librispeech_train_100", type=str, required=True)
+    parser.add_argument("-ls360", "--librispeech_train_360", type=str, required=True)
     parser.add_argument("-lm_dev", "--libri2mix_dev", type=str, required=True)
     parser.add_argument("-lm_test", "--libri2mix_test", type=str, required=True)
     parser.add_argument("-o", "--output", type=str, required=True)
@@ -56,13 +58,10 @@ if __name__ == "__main__":
     os.makedirs(p("list", "libri2mix_dev"), exist_ok=True)
     os.makedirs(p("list", "libri2mix_test"), exist_ok=True)
 
-    train_audio = [
-        op.join(args.librispeech, i) for i in ["train-clean-100", "train-clean-360"]
-    ]
-    dev_audio = args.libri2mix_dev
-    test_audio = args.libri2mix_test
+    dev_audio = args.lm_dev
+    test_audio = args.lm_test
 
-    generate_training_pt()
+    generate_training_pt(args.ls100, args.ls360)
 
     for t in ["aux_s1", "mix_clean", "s1"]:
         for d, n in [(dev_audio, "libri2mix_dev"), (test_audio, "libri2mix_test")]:
