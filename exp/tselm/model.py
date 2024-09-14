@@ -93,6 +93,13 @@ class Model(nn.Module):
         toks = toks.movedim(-2, -3).contiguous()  # [B,S,N,K]
         rec_sig = self.toks_to_sig(toks.flatten(end_dim=1))  # [BS,T]
         return rec_sig
+    
+    def _error(self, out_toks, true_toks):
+        """
+        Calculate the error in percentage (0-100)
+        """
+        error = (1 - (out_toks == true_toks).sum() / out_toks.numel()) * 100
+        return error
 
     def _emb(self, toks, embedding, attention_mlp):
         in_embs = embedding(toks)  # [B,N,K,H]

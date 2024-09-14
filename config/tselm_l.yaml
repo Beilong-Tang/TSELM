@@ -40,7 +40,7 @@ best_save_type: descend #[descend, ascend] ## descend means that the the lower t
 max_ckpt: 1 # The maximum ckpt to keep
 
 ### optim and scheduler ###
-lr: 0.0005
+lr: 0.00005
 optim: !name:torch.optim.AdamW
   lr: !ref <lr>
   betas: (0.9, 0.98)
