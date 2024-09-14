@@ -1,7 +1,7 @@
 import os.path as op
 import os
 import glob
-# import torch
+import torch
 import tqdm
 
 BASE_PATH = op.abspath(op.dirname(__file__))
@@ -10,8 +10,11 @@ def p(*args):
     return op.join(BASE_PATH, *args)
 
 os.makedirs(p("list"), exist_ok=True)
+os.makedirs(p("list", "train"), exist_ok=True)
+os.makedirs(p("list", "dev"), exist_ok=True)
+os.makedirs(p("list", "test"), exist_ok=True)
 
-train_audio = [p(i) for i in ["train-clean-100", "train-clean-360"]]
+train_audio = [p("librispeech", i) for i in ["train-clean-100", "train-clean-360"]]
 dev_audio = "dev-clean"
 test_audio = "test-clean"
 
