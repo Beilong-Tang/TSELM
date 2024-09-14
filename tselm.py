@@ -7,7 +7,6 @@ import copy
 
 
 from utils import truc_wav, split_audio
-from exp.dasb.blind.wavlm.model import Model as Base
 
 class Model(nn.Module):
     def __init__(
