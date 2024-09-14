@@ -74,25 +74,16 @@ fusion_norm: !new:torch.nn.GroupNorm
   num_channels: !ref <embedding_dim>
   eps: 1.e-8
 
-cache_ckpt_path: /public/home/qinxy/bltang/ml_framework_slurm/ckpt # checkpoint, does not matter too much here.
-hifi_gan_source: /public/home/qinxy/bltang/pretrain_dasb_tokenizer/models/hifigan-wavlm-l1-3-7-12-18-23-k1000-LibriTTS
+hifi_gan: !new:models.hifi_gan.HiFiGAN
+  model_path: /public/home/qinxy/bltang/pretrain_dasb_tokenizer/models/hifigan-wavlm-l1-3-7-12-18-23-k1000-LibriTTS
 
-hifi_gan: !apply:speechbrain.inference.vocoders.UnitHIFIGAN.from_hparams
-  source: !ref <hifi_gan_source>
+ssl_model: !new:models.wavlm.WavLM
+  model_path: /public/home/qinxy/bltang/pretrain_dasb_tokenizer/models/wavlm-large
 
-ssl_model: !new:speechbrain.lobes.models.huggingface_transformers.wavlm.WavLM
-  source: /public/home/qinxy/bltang/pretrain_dasb_tokenizer/models/wavlm-large
-  save_path: ./ckpt/.wavlm
-  output_all_hiddens: True 
-  output_norm: False
-  freeze: True 
-  freeze_feature_extractor: True
-
-discrete_ssl: !new:speechbrain.lobes.models.huggingface_transformers.discrete_ssl.DiscreteSSL
-  save_path: ./ckpt/.discrete
+discrete_ssl: !new:models.discrete_ssl.DiscreteSSL
   ssl_model: !ref <ssl_model>
   kmeans_dataset: LibriSpeech-100-360-500
-  kmeans_repo_id: /public/home/qinxy/bltang/pretrain_dasb_tokenizer/models/SSL_Quantization
+  kmeans_path: /public/home/qinxy/bltang/pretrain_dasb_tokenizer/models/SSL_Quantization
   num_clusters: !ref <num_clusters>
 
 attention_mlp: !new:exp.dasb.blind.wavlm.modules.AttentionMLP
