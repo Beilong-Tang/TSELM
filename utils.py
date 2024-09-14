@@ -14,18 +14,31 @@ class AttrDict(dict):
             return None
 
 
-def truc_wav(audio: torch.Tensor, length=64000):
+def truc_wav(*audio: torch.Tensor, length=64000):
     """
-    audio: [T], torch audio
-    length: the point length of audio to be chuncked
-    ---
+    Given a list of audio with the same length as arguments, chunk the audio into a given length.
+    Note that all the audios will be chunked using the same offset
+
+    Args:
+        audio: the list of audios to be chunked, should have the same length with shape [T] (1D)
+        length: the length to be chunked into, if length is None, return the original audio
+    Returns:
+        A list of chuncked audios
     """
-    if audio.size(0) > length:
-        offset = random.randint(0, audio.size(0) - length - 1)
-        audio = audio[offset : offset + length]
+    audio_len = audio[0].size(0)  # [T]
+    res = []
+    if length == None:
+        for a in audio:
+            res.append(a)
+        return res[0] if len(res) == 1 else res
+    if audio_len > length:
+        offset = random.randint(0, audio_len - length - 1)
+        for a in audio:
+            res.append(a[offset : offset + length])
     else:
-        audio = F.pad(audio, (0, length - audio.size(0)), "constant")
-    return audio
+        for a in audio:
+            res.append(F.pad(a, (0, length - a.size(0)), "constant"))
+    return res[0] if len(res) == 1 else res
 
 
 def split_audio(audio, length=48000, pad_last=True):
