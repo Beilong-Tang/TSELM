@@ -204,7 +204,7 @@ class Model(nn.Module):
                 loss,
                 out_toks,
                 true_toks,
-                torch.tensor(self._error(out_toks, true_toks), device=mix.device),
+                self._error(out_toks, true_toks)
             )
         else:
             return out_toks
