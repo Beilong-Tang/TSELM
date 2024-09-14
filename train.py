@@ -19,7 +19,6 @@ import torch.distributed as dist
 
 from torch.utils.data import DataLoader
 from hyperpyyaml import load_hyperpyyaml
-from utils import AttrDict
 from utils.env import AttrDict
 
 def set_random_seed(seed):
