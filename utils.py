@@ -1,13 +1,12 @@
-import torch 
+import torch
 import torch.nn.functional as F
 import random
 
+
 def truc_wav(audio: torch.Tensor, length=64000):
     """
-    audio: [T], torch
-    length: the point length of audio
-    ---
-    random chunk the audio into the duration of 4
+    audio: [T], torch audio
+    length: the point length of audio to be chuncked
     ---
     """
     if audio.size(0) > length:
@@ -33,3 +32,34 @@ def split_audio(audio, length=48000, pad_last=True):
             audio_array[-1], (0, length - audio_array[-1].size(0)), "constant"
         )
     return audio_array
+
+
+def dict_to_str(dictionary):
+    res = ""
+    for key, value in dictionary.items():
+        res += f"{key} : {value}, "
+    return res
+
+
+def save(path, content, max_ckpt=1):
+    # if len(files_path) >= max_ckpt:
+    if max_ckpt == -1:
+        ##save
+        torch.save(content, path)
+        return
+    if max_ckpt == None:
+        max_ckpt = 1
+    dirname = op.dirname(path)
+    files = sorted(
+        [f for f in os.listdir(dirname) if (f.endswith(".pth") and "best" not in f)],
+        key=lambda x: int(re.search(r"[0-9]+", x).group()),
+    )
+    files_path = [op.join(dirname, f) for f in files]
+    print(f"files path:  {files_path}")
+    if len(files_path) >= max_ckpt:
+        try:
+            os.remove(files_path[0])
+        except FileNotFoundError as e:
+            print("saving error")
+            print(e)
+    torch.save(content, path)

@@ -3,20 +3,26 @@ Wrapper class for WavLM Large of HuggingFace
 https://huggingface.co/microsoft/wavlm-large
 """
 
-import torch.nn as nn 
+import torch.nn as nn
 import torch
 import torch.nn.functional as F
 from transformers import AutoModel
 
 
 class WavLM(nn.Module):
-    def __init__(self, model_path:str, output_norm = False, output_all_hiddens = True, normalize_wav = True):
+    def __init__(
+        self,
+        model_path: str,
+        output_norm=False,
+        output_all_hiddens=True,
+        normalize_wav=True,
+    ):
         """Initialize WavLM Large
 
         Arguments
         ---------
         source: str
-            The WavLM url for Hugging face or local directory 
+            The WavLM url for Hugging face or local directory
         output_norm: bool
             Whether to normalize the output.
         output_all_hiddens: bool
@@ -26,7 +32,7 @@ class WavLM(nn.Module):
 
         Example
         -------
-        >>> wavlm = WavLM('microsoft/wavlm-large') 
+        >>> wavlm = WavLM('microsoft/wavlm-large')
         """
         super().__init__()
         self.model = AutoModel.from_pretrained(model_path)
@@ -36,15 +42,15 @@ class WavLM(nn.Module):
         self.output_norm = output_norm
         self.output_all_hiddens = output_all_hiddens
         self.normalize_wav = normalize_wav
-    
+
     @torch.no_grad()
     def extract_features(self, wav):
         """
         Arguments
         ---------
-        wav: [B,T] 
+        wav: [B,T]
             The input wav.
-        
+
         Returns
         -------
         out: torch.Tensor
@@ -56,7 +62,7 @@ class WavLM(nn.Module):
         with torch.no_grad():
             out = self.model(
                 wav,
-                attention_mask = None,
+                attention_mask=None,
                 output_hidden_states=self.output_all_hiddens,
             )
         if self.output_all_hiddens:

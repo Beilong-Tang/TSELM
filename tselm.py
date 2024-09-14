@@ -1,4 +1,4 @@
-# The model class for TSELM model 
+# The model class for TSELM model
 from typing import List
 import torch.nn as nn
 import torch
@@ -6,6 +6,7 @@ import torch.nn.functional as F
 import copy
 
 from utils import truc_wav, split_audio
+
 
 class Model(nn.Module):
     def __init__(
@@ -44,7 +45,7 @@ class Model(nn.Module):
         self.fusion = fusion
         self.film = film
         self.fusion_norm = fusion_norm
-    
+
     @torch.no_grad()
     def sig_to_toks(self, audio):
         toks, _, _ = self.discrete_ssl(audio, SSL_layers=self.ssl_layers)
@@ -123,7 +124,6 @@ class Model(nn.Module):
         att_w = attention_mlp(in_embs)  # [B,N,K,1]
         in_embs = torch.matmul(att_w.transpose(2, -1), in_embs).squeeze(-2)  # [B, N, H]
         return in_embs
-
 
     def inference(self, mix, regi):
         """

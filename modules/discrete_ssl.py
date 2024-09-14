@@ -5,6 +5,7 @@ import torch
 import torch.nn as nn
 import os
 
+
 class DiscreteSSL(nn.Module):
     """This lobe enables the integration of HuggingFace and SpeechBrain
     pretrained Discrete SSL models.
@@ -71,15 +72,12 @@ class DiscreteSSL(nn.Module):
         self.ssl_model = ssl_model
         self.check_if_input_is_compatible(layers_num, num_clusters)
 
-
-        self.kmeans_models, self.ssl_layer_ids, self.num_clusters = (
-            self.load_kmeans(
-                kmeans_path,
-                kmeans_dataset,
-                ssl_name,
-                self.num_clusters,
-                layers_num,
-            )
+        self.kmeans_models, self.ssl_layer_ids, self.num_clusters = self.load_kmeans(
+            kmeans_path,
+            kmeans_dataset,
+            ssl_name,
+            self.num_clusters,
+            layers_num,
         )
 
         self.vocabularies = []
@@ -163,9 +161,7 @@ class DiscreteSSL(nn.Module):
                 if file not in files:
                     files.append(file)
                     layer_ids.append(
-                        int(
-                            file.split("/")[-1].split("_")[-1].split(".")[0][1:]
-                        )
+                        int(file.split("/")[-1].split("_")[-1].split(".")[0][1:])
                     )
                     kmeans_models.append(joblib.load(file))
         assert (
@@ -239,9 +235,7 @@ class DiscreteSSL(nn.Module):
             ):
                 if layer_num not in SSL_layers:
                     continue
-                tokens = model.predict(
-                    feats[layer_num].flatten(end_dim=-2).cpu()
-                )
+                tokens = model.predict(feats[layer_num].flatten(end_dim=-2).cpu())
                 embs = vocabulary[tokens]
                 embeddings.append(
                     torch.tensor(
@@ -265,14 +259,6 @@ class DiscreteSSL(nn.Module):
             org_tokens, SSL_layers, deduplicates, bpe_tokenizers
         )
         return org_tokens, org_embedding, processed_tokens
-
-
-
-
-
-
-
-
 
 
 """Tokenizer for semantic tokens.
@@ -364,9 +350,7 @@ class DiscreteSSLTokenizer:
                     row[np.diff(row, prepend=np.nan).astype(bool)]
                     for row in input[:, :, i].cpu()
                 ]
-                layer_token_ids = [
-                    row.clone().detach() for row in unique_token_ids
-                ]
+                layer_token_ids = [row.clone().detach() for row in unique_token_ids]
                 tokens.extend(layer_token_ids)
 
             else:
@@ -383,10 +367,7 @@ class DiscreteSSLTokenizer:
                 )
             else:
                 token_ids.extend(
-                    [
-                        row + SSL_layers[i] * self.num_clusters[i] + 1
-                        for row in tokens
-                    ]
+                    [row + SSL_layers[i] * self.num_clusters[i] + 1 for row in tokens]
                 )
 
         return torch.stack(
