@@ -19,7 +19,7 @@ def unify_energy(*args):
     return [x * mix_scale for x in args]
 
 
-def generate_target_audio(spk1, spk2, regi, mix_length, regi_length, snr=5):
+def generate_target_audio(spk1, spk2, regi, snr=5):
     """
     spk 1: T1
     spk 2: T2
@@ -91,7 +91,7 @@ class TargetDMDataset(Dataset):
         spk1_audio = truc_wav(spk1_audio, length=self.mix_length)
         spk2_audio = truc_wav(spk2_audio, length=self.mix_length)
         mix, clean, regi = generate_target_audio(
-            spk1_audio, spk2_audio, regi_audio, self.mix_length, self.regi_length
+            spk1_audio, spk2_audio, regi_audio
         )
         return mix, clean, regi
 
