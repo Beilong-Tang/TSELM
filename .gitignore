@@ -1,7 +1,9 @@
 __pycache__
 *.wav
 *.txt
+!requirements.txt
 *.pt
 output
 *.log
 *.tar.gz
+*.ipynb
