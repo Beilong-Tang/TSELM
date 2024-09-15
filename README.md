@@ -45,6 +45,7 @@ The config for training `TSELM-L` can be found in [config/tselm_l.yaml](./config
 To infer our model on libri2mix testset, for example, you can run
 
 ```shell
+## Generate output audio on libri2mix testset
 python inference.py -scp <path_to_libri2mix_test_scp_folder> \
   -config ./config/tselm_l.yaml \
   -ckpt <path_to_ckpt> \
@@ -52,6 +53,7 @@ python inference.py -scp <path_to_libri2mix_test_scp_folder> \
   -gpus cuda:0 cuda:1 cuda:2 cuda:3 \
   -proc 8
 ```
+
 `-scp` specifies the the path to the libri2mix testset folder containing `aux_s1.scp`, `s1.scp`, and `mix_clean.scp`. 
 
 `-config` specifies the config. This config needs to have the `model` field. 
