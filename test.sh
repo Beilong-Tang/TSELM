@@ -1,0 +1,1 @@
+python inference.py -scp /public/home/qinxy/bltang/data/LibriMix/Libri2Mix/wav16k/min/lists/dev -config ./config/tselm_l.yaml -ckpt /public/home/qinxy/bltang/ml_framework_slurm/exp/tsslm_final/discrete_k_1000/ckpt/conf_l/best.pth -d cuda:0 -o /public/home/qinxy/bltang/TSELM/output/tselm_l -gpus cuda:0 cuda:1 cuda:2 cuda:3 -proc 8 
