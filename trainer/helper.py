@@ -46,7 +46,6 @@ def save(path, content, max_ckpt=1):
         key=lambda x: int(re.search(r"[0-9]+", x).group()),
     )
     files_path = [op.join(dirname, f) for f in files]
-    print(f"files path:  {files_path}")
     if len(files_path) >= max_ckpt:
         try:
             os.remove(files_path[0])

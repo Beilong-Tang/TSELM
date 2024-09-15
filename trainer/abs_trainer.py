@@ -152,7 +152,7 @@ class AbsTrainer:
         self.model.eval()
         result = None
         if self.rank == 0:
-            print(f"evaluating on cv_data of len {len(cv_data)* cv_data.batch_size}")
+            print("evaluating...")
         with torch.no_grad():
             for data in cv_data:
                 res = self._eval_one_batch(data)
