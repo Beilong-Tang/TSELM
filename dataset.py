@@ -62,7 +62,6 @@ class TargetDMDataset(Dataset):
         self.rank = rank
         self.regi_length = regi_length
         self.num = 3
-        self.ct = 0
         pass
 
     def __len__(self):
@@ -72,9 +71,6 @@ class TargetDMDataset(Dataset):
         keys_list = list(self.speaker_dict.keys())
         speaker_1 = random.choice(keys_list)
         speaker_2 = random.choice(keys_list)
-        if self.ct < self.num:
-            print(f"rank {self.rank} get spk1 {speaker_1}")
-            self.ct += 1
         while speaker_2 == speaker_1:
             speaker_2 = random.choice(keys_list)
         spk1 = random.choice(self.speaker_dict[speaker_1])
