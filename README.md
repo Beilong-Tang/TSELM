@@ -24,27 +24,23 @@ and comparable results in speech intelligibility.
 
 1. Install [SpeechBrain](https://github.com/speechbrain/speechbrain/tree/main) (We use the Conformer model from it). 
 2. Install all dependencies from `requirements.txt`
-3. Download the encoder(WavLM+Kmeans) and decoder(Unit HiFiGAN) checkpoint. Details can be found in [Model](#model) session.
-
-## Usage 
-
-### Data Preparation
-
-See the `README.md` in `data` foler.
+3. Download the encoder(WavLM Large and Kmeans) and decoder(Unit HiFiGAN) checkpoint. Details can be found in [Model](#model) session.
+4. Download the data following `README.md` in `data` folder.
 
 ### Model
-Our model is comprised of three components: `encoder`, `modeling`, and `decoder`.
-Our `encoder` and `decoder` is fronzen. To successfully run experiments, we need to download the checkpoint of them. All the checkpoints can be found [here](https://huggingface.co/Beilong/TSELM/tree/main).
+To run experiments, we need to download the following pretrained models.
 
-#### Encoder
+| Name         | Link                                                        | Note                       |
+|--------------|-------------------------------------------------------------|----------------------------|
+| WavLM Large  | https://huggingface.co/microsoft/wavlm-large/tree/main      | Download all whole folder. |
+| Kmeans       | https://huggingface.co/Beilong/TSELM/tree/main/kmeans_ckpt  | Download and extract.      |
+| Unit HiFiGAN | https://huggingface.co/Beilong/TSELM/tree/main/backend_ckpt | Download and extract.      |
 
-__WavLM Large__  It can be downloaded [here](https://huggingface.co/microsoft/wavlm-large/tree/main). We recommend to download the whole folder. 
+## Pretrained Model
 
-__Kmeans__. Our 6 kmeans models of hidden layer 1, 3, 7, 12, 18, 23 from WavLM Large can be downloaded [here](https://huggingface.co/Beilong/TSELM/tree/main/kmeans_ckpt). Extract it afterwards.
 
-#### Decoder
 
-__ 
+
 
 
 
