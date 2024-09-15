@@ -140,6 +140,7 @@ class Model(nn.Module):
             audio = audio.unsqueeze(0)  # [1,T]
             out_toks = self.forward(audio, None, regi, inference=True)  # [B,N,K]
             aux = self.recon(out_toks)  # [1, T]
+            print(aux.shape)
             aux_list.append(aux)
         recon = torch.cat(aux_list, dim=1)  # [1, T']
         length = min(mix.size(1), recon.size(1))
