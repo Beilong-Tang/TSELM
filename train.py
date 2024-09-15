@@ -103,7 +103,7 @@ def main(rank, args):
         sampler=DistributedSampler(dataset=tr_dataset, seed=config.sampler_seed + rank),
         num_workers=config.num_workers,
         collate_fn=config.collate_fn,
-        worker_init_fn=partial(seed_worker, seed + rank*10000  ),
+        worker_init_fn=partial(seed_worker, seed + rank * 10000),
     )
     cv_dataset = config.cv_dataset(rank=rank)
     cv_data = DataLoader(
@@ -116,7 +116,7 @@ def main(rank, args):
         shuffle=False,
         num_workers=config.num_workers,
         collate_fn=config.collate_fn,
-        worker_init_fn=partial(seed_worker, seed + rank*10000  ),
+        worker_init_fn=partial(seed_worker, seed + rank * 10000),
     )
 
     optim = config.optim(params=filter(lambda p: p.requires_grad, model.parameters()))
