@@ -9,8 +9,8 @@ def getname_(dir_name, path_name):
     return os.path.join(dir_name, os.path.basename(path_name))
 
 
-def len_(num_speakers, ssl_layers: List[int], vocab_size):
-    return num_speakers * len(ssl_layers) * vocab_size
+def len_( ssl_layers: List[int], vocab_size):
+    return len(ssl_layers) * vocab_size
 
 
 def get_len(array: list):

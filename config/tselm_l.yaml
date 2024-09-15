@@ -1,43 +1,55 @@
+# TSELM-L Config
 #
-# TRAIN the blind separation using the recipe provided in DASB
-#
-
-### seed ###
-sampler_seed: 1234
-seed: 1234
+### Configuration 
+#### data configuration
+tr_data_scp_path: <path_to_train_100_360.pt>
+cv_mix_path: <path_to_mix_clean.scp>
+cv_ref_path: <path_to_aux_s1.scp>
+cv_clean_path: <path_to_s1.scp>
+#### pretrain model configuration
+hifi_gan_path: <path_to_hifi_gan_ckpt_folder>
+wavlm_path: <path_to_wavlm_ckpt_folder>
+kmeans_path: <path_to_kmeans_ckpt_folder> 
+###
 
 ### ddp config ###
-gpus: [0,1,2,3,4,5,6,7,8]
-port: 12355
+gpus: [0,1,2,3,4,5,6,7,8] ## The number of GPUS to run the experiment on 
+port: 12355 ## The port number for DDP
+
+########################################
+### seed ###
+sampler_seed: 1234 # This field is not used because we use dynamic mixing instead of sampler
+seed: 1234 # The training and accessing data seed for reproductivity
+
 
 ### data ###
 tr_dataset: !name:dataset.TargetDMDataset ## libri speech DM dataset
-  scp_path: /public/home/qinxy/zbang/data/LibriSpeech/scp/train/train_clean_100_360.pt
-  epoch_num: 5_0000
-  mix_length: 48080
-  regi_length: 64080
+  scp_path: !ref <tr_data_scp_path>
+  epoch_num: 5_0000 # How many data to be considered as one epoch
+  mix_length: 48080 # The mixture audio length (3.05 s x 16000)
+  regi_length: 64080 # The reference audio length (4.05 s x 16000)
 cv_dataset: !name:dataset.TargetDataset
-  mix_path: "/public/home/qinxy/bltang/data/LibriMix/Libri2Mix/wav16k/min/lists/test/mix.scp"
-  regi_path: "/public/home/qinxy/bltang/data/LibriMix/Libri2Mix/wav16k/min/lists/test/bltang/regi.scp"
-  clean_path: "/public/home/qinxy/bltang/data/LibriMix/Libri2Mix/wav16k/min/lists/test/s1.scp"
+  mix_path: !ref <cv_mix_path>
+  regi_path: !ref <cv_ref_path>
+  clean_path: !ref <cv_clean_path>
   mix_length: 48080
   regi_length: 64080
-batch_size: 128
-num_workers: 2
-batch_size_eval: 256
+batch_size: 128 # The total batch size
+num_workers: 2 # Data loader num workers
+batch_size_eval: 256 # The total evaluation batch size
 
 ### log ###
-log_interval: 5
+log_interval: 5 # The interval for logging 
 
 
 ### train ###
 trainer: !name:exp.tselm.trainer.Trainer
-epoch: 100
-find_unused: False
+epoch: 100 # The total Epoch number
+find_unused: False # Specifies the DDP find_unused field
 pre_eval: False # before training, do a pre evaluation to see if anything with the evaluation is right
-best_field: error # Save the best model according to what field
+best_field: error # Save the best model according to this field
 best_save_type: descend #[descend, ascend] ## descend means that the the lower the value the best_field, the better it will be
-max_ckpt: 1 # The maximum ckpt to keep
+max_ckpt: 1 # The maximum number of checkpoints to keep in the ckpt folder
 
 ### optim and scheduler ###
 lr: 0.00005
@@ -52,7 +64,7 @@ new_bob: !new:scheduler.schedulers.NewBobScheduler
   improvement_threshold: 0.0025
   patient: 1
 
-### model ###
+### model specific ###
 num_clusters: 1000
 embedding_dim: 1024
 d_model: 768
@@ -75,14 +87,14 @@ fusion_norm: !new:torch.nn.GroupNorm
   eps: 1.e-8
 
 hifi_gan: !new:models.hifi_gan.HiFiGAN
-  model_path: /public/home/qinxy/bltang/pretrain_dasb_tokenizer/models/hifigan-wavlm-l1-3-7-12-18-23-k1000-LibriTTS
+  model_path: !ref <hifi_gan_path>
 
 ssl_model: !new:models.wavlm.WavLM
-  model_path: /public/home/qinxy/bltang/pretrain_dasb_tokenizer/models/wavlm-large
+  model_path: !ref <wavlm_path>
 
 discrete_ssl: !new:models.discrete_ssl.DiscreteSSL
   ssl_model: !ref <ssl_model>
-  kmeans_path: /public/home/qinxy/bltang/pretrain_dasb_tokenizer/models/SSL_Quantization/LibriSpeech-100-360-500/wavlm
+  kmeans_path: !ref <kmeans_path>
   num_clusters: !ref <num_clusters>
   
 attention_mlp: !new:exp.tselm.modules.AttentionMLP
@@ -99,7 +111,7 @@ embedding: !new:exp.tselm.modules.Discrete_EmbeddingLayer
 head: !new:torch.nn.Linear 
   in_features: !ref <d_model>
   out_features: !apply:exp.tselm.utils.len_ 
-    [1, !ref <ssl_layers>, !ref <num_clusters>]
+    [!ref <ssl_layers>, !ref <num_clusters>]
 
 lm_model: !new:speechbrain.lobes.models.transformer.TransformerASR.TransformerASR
     input_size: !ref <embedding_dim>
