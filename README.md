@@ -22,7 +22,7 @@ and comparable results in speech intelligibility.
 
 1. Install [SpeechBrain](https://github.com/speechbrain/speechbrain/tree/main) (We use the Conformer model from it). 
 2. Install all dependencies from `requirements.txt`
-3. Download the encoder(WavLM Large and Kmeans) and decoder(Unit HiFiGAN) checkpoint. Details can be found in [Model](#pretrained-model) session.
+3. Download the encoder(WavLM Large and Kmeans) and decoder(Scalable HiFiGAN) checkpoint. Details can be found in [Model](#pretrained-model) session.
 4. Download the data and run the scripts following [data/README.md](./data/README.md).
 
 ### Pretrained Model
@@ -32,8 +32,9 @@ Befor running experiments, we need to download the following frozen pretrained m
 |--------------|-------------------------------------------------------------|----------------------------|
 | WavLM Large  | https://huggingface.co/microsoft/wavlm-large/tree/main      | Download the whole folder. |
 | Kmeans       | [Download Kmeans Checkpoint](https://huggingface.co/Beilong/TSELM/resolve/main/kmeans_ckpt/kmeans_wavlm_ckpt.tar.gz?download=true)  | Download and extract.      |
-| Unit HiFiGAN | [Download HiFiGAN Checkpoint](https://huggingface.co/Beilong/TSELM/resolve/main/backend_ckpt/hifigan-wavlm-l1-3-7-18-23-k1000-LibriTTS.tar.gz?download=true) | Download and extract.      |
+| Scalable HiFiGAN | [Download HiFiGAN Checkpoint](https://huggingface.co/Beilong/TSELM/resolve/main/backend_ckpt/hifigan-wavlm-l1-3-7-18-23-k1000-LibriTTS.tar.gz?download=true) | Download and extract.      |
 
+For Kmeans and Scalable HiFiGAN, make sure to extract it.
 
 ## Training
 
