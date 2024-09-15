@@ -46,11 +46,9 @@ After configuration, you can run
 ## Train the model using the config 
 python train.py --config_path ./config/tselm_l.yaml --log ./log --ckpt_path ./ckpt/tselm_l 
 ```
-`--config_path` specifies the path to the config file.
-
-`--log` specifies the log output directory. All logs will be put here.
-
-`--ckpt_path` specifies the checkpoint directory. Training can be resumed using the same checkpoint path. 
+- `--config_path` specifies the path to the config file.
+- `--log` specifies the log output directory. All logs will be put here.
+- `--ckpt_path` specifies the checkpoint directory. Training can be resumed using the same checkpoint path. 
 
 
 ## Inference
@@ -66,18 +64,13 @@ python inference.py -scp <path_to_libri2mix_test_scp_folder> \
   -proc 8
 ```
 
-`-scp` specifies the the path to the libri2mix testset folder containing `aux_s1.scp`, `s1.scp`, and `mix_clean.scp`. 
-
-`-config` specifies the config. This config needs to have the `model` field. 
-
-`-ckpt` specifies the model checkpoint.
-
-`--output` specifies the output directory. 
+- `-scp` specifies the the path to the libri2mix testset folder containing `aux_s1.scp`, `s1.scp`, and `mix_clean.scp`. 
+- `-config` specifies the config. This config needs to have the `model` field. 
+- `-ckpt` specifies the model checkpoint.
+- `--output` specifies the output directory. 
 The output audio will be output to this folder. Their names will be the same as those in .scp files. 
-
-`-gpus` specifies the available gpus to run inference.
-
-`-proc` specifies the total number of processes to run the inference in parallel. It will 
+- `-gpus` specifies the available gpus to run inference.
+- `-proc` specifies the total number of processes to run the inference in parallel. It will 
 use the provided gpus and divide the processes equally on each device. Data will be split equally to each process.
 
 
