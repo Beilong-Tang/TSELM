@@ -8,3 +8,4 @@ output
 *.tar.gz
 *.ipynb
 test*
+.vscode
