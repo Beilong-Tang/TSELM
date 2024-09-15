@@ -28,7 +28,7 @@ and comparable results in speech intelligibility.
 4. Download the data following `README.md` in `data` folder.
 
 ### Model
-To run experiments, we need to download the following pretrained models.
+Befor running experiments, we need to download the following frozen pretrained models.
 
 | Name         | Link                                                        | Note                       |
 |--------------|-------------------------------------------------------------|----------------------------|
