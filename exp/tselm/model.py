@@ -75,7 +75,7 @@ class Model(nn.Module):
                 full_toks[..., idx] = toks[..., i]
             toks = full_toks
         self.hifi_gan.tokenize = False
-        sig = self.hifi_gan(toks)[:, 0]  # [B,T]
+        sig = self.hifi_gan(toks)  # [B,T]
         return sig
 
     @torch.no_grad()
@@ -88,7 +88,7 @@ class Model(nn.Module):
         Returns:
             audio: the audio of shape [B, T]
         """
-        toks = toks.unsqueeze(2)
+        toks = toks.unsqueeze(2) #[B, N, 1, K] 
         toks = toks.movedim(-2, -3).contiguous()  # [B,S,N,K]
         rec_sig = self.toks_to_sig(toks.flatten(end_dim=1))  # [BS,T]
         return rec_sig
@@ -138,12 +138,8 @@ class Model(nn.Module):
         aux_list = []
         for audio in mix_array:
             audio = audio.unsqueeze(0)  # [1,T]
-            print("mix ", audio.shape)
-            print("regi", regi.shape)
             out_toks = self.forward(audio, None, regi, inference=True)  # [B,N,K]
-            print(out_toks.shape)
             aux = self.recon(out_toks)  # [1, T]
-            print(aux.shape)
             aux_list.append(aux)
         recon = torch.cat(aux_list, dim=1)  # [1, T']
         length = min(mix.size(1), recon.size(1))
