@@ -8,7 +8,7 @@ seed: 1234
 
 ### ddp config ###
 gpus: [0,1,2,3]
-port: 12355
+port: 12356
 
 ### data ###
 tr_dataset: !name:dataset.TargetDMDataset ## libri speech DM dataset

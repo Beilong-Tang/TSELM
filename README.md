@@ -1,4 +1,5 @@
 # Under Processing 
+
 # TSELM: Target Speaker Extraction using Discrete Tokens and Language Models
 Official Implementation of TSELM: Target Speaker Extraction using Discrete Tokens and Language Models
 
@@ -21,7 +22,16 @@ and comparable results in speech intelligibility.
 
 ## Pre-requisites
 
-Make sure the audio is 16khz. 
-
+1. Install [SpeechBrain](https://github.com/speechbrain/speechbrain/tree/main) (We use the Conformer model from it). 
+2. Install all dependencies from `requirements.txt`
 
 ## Usage 
+
+### Data Preparation
+
+See the `README.md` in `data` foler.
+
+### Train the model
+
+
+

@@ -2,7 +2,7 @@ HyperPyYAML==1.2.2
 joblib==1.4.2
 numpy==1.24.4
 PyYAML==6.0.2
-torch==2.3.0+cu118
-torchaudio==2.3.0+cu118
+torch
+torchaudio
 tqdm==4.66.4
 transformers==4.42.3
