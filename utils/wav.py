@@ -1,24 +1,6 @@
 import torch
-import torchaudio as ta
 import random
 import torch.nn.functional as F
-from typing import Optional
-
-
-## TODO: this function not finished
-def load_audio(path, sr: Optional[int] = None, flat=False):
-    audio, rate = ta.load(path)
-    if sr is not None:
-        assert rate == sr
-    if flat:
-        return audio.unsqueeze(0)
-
-
-## TODO: this function not finished
-def squeeze(*audio):
-    res = []
-    for a in audio:
-        res.append(a.squeeze())
 
 
 def truc_wav(*audio: torch.Tensor, length):
