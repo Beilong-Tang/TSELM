@@ -63,14 +63,14 @@ if __name__ == "__main__":
         "-gpus",
         "--gpus",
         nargs="+",
-        default=["cuda:0"],
+        default=["cuda:0", "cuda:1", "cuda:2", "cuda:3"],
         help="The gpus to run the ddp.",
     )
     parser.add_argument(
         "-proc",
         "--proc",
         type=int,
-        default=4,
+        default=8,
     )
     args = parser.parse_args()
     if args.proc != 1:
