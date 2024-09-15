@@ -62,7 +62,6 @@ if __name__ == "__main__":
     parser.add_argument(
         "-gpus",
         "--gpus",
-        required=True,
         nargs="+",
         default=["cuda:0"],
         help="The gpus to run the ddp.",
