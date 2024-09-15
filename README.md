@@ -1,5 +1,3 @@
-# Under Processing 
-
 # TSELM: Target Speaker Extraction using Discrete Tokens and Language Models
 Official Implementation of TSELM: Target Speaker Extraction using Discrete Tokens and Language Models
 
