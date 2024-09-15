@@ -36,7 +36,6 @@ class Trainer(AbsTrainer):
 
     def _train_one_batch(self, batch, data, optim, if_log) -> dict:
         mix, clean, regi = data
-        ### all of it goes to codec
         mix, clean, regi = (
             mix.to(self.device),
             clean.to(self.device),
@@ -53,7 +52,6 @@ class Trainer(AbsTrainer):
 
     def _eval_one_batch(self, data) -> dict:
         mix, clean, regi, _, _, _ = data
-        ### all of it goes to codec
         mix, clean, regi = (
             mix.to(self.device),
             clean.to(self.device),

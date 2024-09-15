@@ -148,9 +148,7 @@ class DiscreteSSL(nn.Module):
                     f"{kmeans_path}/*_{encoder_name}_k{num_clusters[i]}_L{layer}.pt"
                 )
         else:
-            file_patterns.append(
-                f"{kmeans_path}/*_{encoder_name}_k{num_clusters}*.pt"
-            )
+            file_patterns.append(f"{kmeans_path}/*_{encoder_name}_k{num_clusters}*.pt")
         files = []
         for ext in file_patterns:
             for file in glob(ext):

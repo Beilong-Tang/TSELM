@@ -18,6 +18,9 @@ def gather_tensors(tensor):
 
 
 def get_avg_result(res: dict):
+    """
+    This method is called to collect the average results from evaluation.
+    """
     new_res = {}
     for k, v in res.items():
         tensors = gather_tensors(v)
