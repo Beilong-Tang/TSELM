@@ -59,4 +59,23 @@ port: 12355 ## The port number for DDP
 
 ### Other configuration
 
-The other configuration can be found in the 
+You can freely change other configurations following the comments [tselm_l.yaml](tselm_l.yaml).
+
+If you want to have `TSELM-L-Hybrid` where we keep the mixture audio continuous without discretization. You can add `mix_continuous: True` to the model field, for example:
+```yaml
+model: !new:exp.tselm.model.Model
+  hifi_gan: !ref <hifi_gan>
+  discrete_ssl: !ref <discrete_ssl>
+  ssl_layers: !ref <ssl_layers>
+  attention_mlp: !ref <attention_mlp>
+  lm_model: !ref <lm_model>
+  embedding: !ref <embedding>
+  head: !ref <head>
+  vocab_size: !ref <num_clusters>
+  fusion: !ref <cross_attention_model>
+  film: !ref <FiLM>
+  fusion_norm: !ref <fusion_norm>
+  mix_continuous: True ## Set mixture continuous to True
+```
+
+You can also add `concat_regi: False` to reproduce `TSELM-L-NoCat`. 

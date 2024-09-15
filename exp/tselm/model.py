@@ -27,6 +27,11 @@ class Model(nn.Module):
     ):
         """
         The model class for TSELM based models
+
+        Arguments:
+            mix_continuous: Whether to keep the mix continuous with tokenization
+            concat_regi: Whether to concat reference audio to mixture
+
         """
         super().__init__()
         self.hifi_gan = hifi_gan
