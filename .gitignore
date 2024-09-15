@@ -4,3 +4,4 @@ __pycache__
 *.pt
 output
 *.log
+*.tar.gz

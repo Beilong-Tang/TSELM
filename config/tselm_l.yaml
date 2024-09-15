@@ -82,8 +82,7 @@ ssl_model: !new:models.wavlm.WavLM
 
 discrete_ssl: !new:models.discrete_ssl.DiscreteSSL
   ssl_model: !ref <ssl_model>
-  kmeans_dataset: LibriSpeech-100-360-500
-  kmeans_path: /public/home/qinxy/bltang/pretrain_dasb_tokenizer/models/SSL_Quantization
+  kmeans_path: /public/home/qinxy/bltang/pretrain_dasb_tokenizer/models/SSL_Quantization/LibriSpeech-100-360-500/wavlm
   num_clusters: !ref <num_clusters>
   
 attention_mlp: !new:exp.tselm.modules.AttentionMLP

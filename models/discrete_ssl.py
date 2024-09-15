@@ -61,8 +61,7 @@ class DiscreteSSL(nn.Module):
     def __init__(
         self,
         ssl_model,
-        kmeans_dataset,
-        kmeans_path="speechbrain/SSL_Quantization",
+        kmeans_path,
         num_clusters=1000,
         ssl_name="wavlm",
         layers_num=None,
@@ -74,7 +73,6 @@ class DiscreteSSL(nn.Module):
 
         self.kmeans_models, self.ssl_layer_ids, self.num_clusters = self.load_kmeans(
             kmeans_path,
-            kmeans_dataset,
             ssl_name,
             self.num_clusters,
             layers_num,
@@ -114,8 +112,7 @@ class DiscreteSSL(nn.Module):
 
     def load_kmeans(
         self,
-        repo_id,
-        kmeans_dataset,
+        kmeans_path,
         encoder_name,
         num_clusters,
         layers_num=None,
@@ -148,16 +145,15 @@ class DiscreteSSL(nn.Module):
         if layers_num:
             for i, layer in enumerate(layers_num):
                 file_patterns.append(
-                    f"{kmeans_dataset}/{encoder_name}/*_k{num_clusters[i]}_L{layer}.pt"
+                    f"{kmeans_path}/*_{encoder_name}_k{num_clusters[i]}_L{layer}.pt"
                 )
         else:
             file_patterns.append(
-                f"{kmeans_dataset}/{encoder_name}/*_k{num_clusters}*.pt"
+                f"{kmeans_path}/*_{encoder_name}_k{num_clusters}*.pt"
             )
-        kmeans_dir = repo_id
         files = []
         for ext in file_patterns:
-            for file in glob(os.path.join(kmeans_dir, ext)):
+            for file in glob(ext):
                 if file not in files:
                     files.append(file)
                     layer_ids.append(
@@ -166,7 +162,7 @@ class DiscreteSSL(nn.Module):
                     kmeans_models.append(joblib.load(file))
         assert (
             len(layer_ids) > 0
-        ), f"There is no trained k-means model available for {repo_id}/{encoder_name}/*_k{num_clusters[i]}_L*"
+        ), f"There is no trained k-means model available for {kmeans_path}/*_k{num_clusters[i]}_L*"
 
         if isinstance(num_clusters, int):
             num_clusters = [num_clusters for i in layer_ids]
