@@ -25,6 +25,9 @@ class Model(nn.Module):
         mix_continuous=False,
         concat_regi=True,
     ):
+        """
+        The model class for TSELM based models
+        """
         super().__init__()
         self.hifi_gan = hifi_gan
         self.discrete_ssl = discrete_ssl
@@ -44,11 +47,39 @@ class Model(nn.Module):
 
     @torch.no_grad()
     def sig_to_toks(self, audio):
+        """
+        Discretize audio to tokens
+        
+        Arguments
+        ---------
+        audio: torch.Tensor
+            shape: [B, T]
+        
+        Return
+        ------
+        toks: torch.Tensor
+            shape: [B, N, K] where N is the time dimension and K is the number of layers 
+            
+        """
         toks, _, _ = self.discrete_ssl(audio, SSL_layers=self.ssl_layers)
         return toks  # [B, N, K]
 
     @torch.no_grad()
     def toks_to_sig(self, toks):
+        """
+        Reconstruct audio from tokens
+
+        Arguments
+        ---------
+        toks: torch.Tensor
+            shape: [B, N, K]
+        
+        Return
+        ------
+        audio: torch.Tensor
+            shape: [B, T]
+
+        """
         # toks: [B, N, K]
         self.hifi_gan.device = toks.device
         self.hifi_gan.to(toks.device)
