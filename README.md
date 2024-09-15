@@ -44,19 +44,34 @@ The training config is specified using `hyperpyyaml` package, which is basically
 The config for training `TSELM-L` can be found in [config/tselm_l.yaml](./config/tselm_l.yaml). Before training, you need to specify the config for the frozen pretrained models. Details can be found in [config/tselm_l.yaml](./config/tselm_l.yaml) and [config/README.md](./config/README.md). 
 
 ## Inference
-To infer our model on libri2mix testset. You can run
+To infer our model on libri2mix testset, for example, you can run
 
 ```shell
-python inference.py -scp <path_to_scp> \
-  -config <path_to_config> \
+python inference.py -scp <path_to_libri2mix_test_scp_folder> \
+  -config ./config/tselm_l.yaml \
   -ckpt <path_to_ckpt> \
-  --device cuda:0 cuda:1 cuda:2 cuda:3 \
-  --output <path_to_output_folder>
-  --
+  --output <path_to_output_folder> \
+  -gpus cuda:0 cuda:1 cuda:2 cuda:3 \
+  -proc 8
 ```
+`-scp` specifies the the path to the libri2mix testset folder containing `aux_s1.scp`, `s1.scp`, and `mix_clean.scp`. 
+
+`-config` specifies the config. This config needs to have the `model` field. 
+
+`-ckpt` specifies the model checkpoint.
+
+`--output` specifies the output directory. 
+The output audio will be output to this folder. Their names will be the same as those in .scp files. 
+
+`-gpus` specifies the available gpus to run inference.
+
+`-proc` specifies the total number of processes to run the inference in parallel. It will 
+use the provided gpus and divide the processes equally on each device. Data will be split equally to each process.
 
 
 ## Model Checkpoint
 
-Our pretrained TSELM-L can be downloaded [here](https://huggingface.co/Beilong/TSELM/resolve/main/model_ckpt/tselm_l.pth?download=true).
+Our TSELM-L checkpoint can be downloaded [here](https://huggingface.co/Beilong/TSELM/resolve/main/model_ckpt/tselm_l.pth?download=true).
+
+You can infer on the libri2mix testset by substituting the `-ckpt` with path to the checkpoint. 
 
