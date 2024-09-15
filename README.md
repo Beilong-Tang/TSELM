@@ -52,6 +52,8 @@ python train.py --config_path ./config/tselm_l.yaml --log ./log --ckpt_path ./ck
 - `--log` specifies the log output directory. All logs will be put here.
 - `--ckpt_path` specifies the checkpoint directory. Training can be resumed using the same checkpoint path. 
 
+After training, the best model will be at `<ckpt_path>/best.pth`. 
+
 
 ## Inference
 To infer our model on libri2mix testset, for example, you can run

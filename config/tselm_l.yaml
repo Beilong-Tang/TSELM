@@ -23,7 +23,7 @@ seed: 1234 # The training and accessing data seed for reproductivity
 
 
 ### data ###
-tr_dataset: !name:dataset.TargetDMDataset ## libri speech DM dataset
+tr_dataset: !name:dataset.TargetDMDataset ## Target Speech Dynamic Mixing Dataset
   scp_path: !ref <tr_data_scp_path>
   epoch_num: 5_0000 # How many data to be considered as one epoch
   mix_length: 48080 # The mixture audio length (3.05 s x 16000)
@@ -41,14 +41,13 @@ batch_size_eval: 256 # The total evaluation batch size
 ### log ###
 log_interval: 5 # The interval for logging 
 
-
 ### train ###
 trainer: !name:exp.tselm.trainer.Trainer
 epoch: 100 # The total Epoch number
 find_unused: False # Specifies the DDP find_unused field
-pre_eval: False # before training, do a pre evaluation to see if anything with the evaluation is right
+pre_eval: True # Before training, whether to do a pre evaluation to see if anything with the evaluation is right
 best_field: error # Save the best model according to this field
-best_save_type: descend #[descend, ascend] ## descend means that the the lower the value the best_field, the better it will be
+best_save_type: descend #[descend, ascend] ## descend means that save the best model when <best_field> is lower. ascend means the opposite. 
 max_ckpt: 1 # The maximum number of checkpoints to keep in the ckpt folder
 
 ### optim and scheduler ###

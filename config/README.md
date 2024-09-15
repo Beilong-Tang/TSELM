@@ -1,14 +1,19 @@
 # Config 
 
 The template configuration for TSELM-L is given at [tselm_l.yaml](tselm_l.yaml). 
+It uses [hyperpyyaml](https://github.com/speechbrain/HyperPyYAML). It is recommended to see
+the tutorials of it. 
 
 __Before processing__, make sure you 
 1. Have all the data ready by following the scripts in `data` folder
 2. Download the frozen pretrained models.  
 
+
+## Configuration 
+
 To train the model, you need to at least change the following in the config
 
-## Data and Pretrained Models
+### Data 
 ```yaml
 # DATA 
 # The path to the train_100_360.pt containing the training data 
@@ -27,6 +32,7 @@ cv_ref_path: <path_to_aux_s1.scp>
 # e.g. .../list/libri2mix_dev/s1.scp
 cv_clean_path: <path_to_s1.scp>
 ```
+### Pretrained Models
 ```yaml
 # PRETRAINED MODEL
 # The path to the hifigan folder
@@ -44,6 +50,13 @@ kmeans_path: <path_to_kmeans_ckpt_folder>
 
 Note that the path for the config for the __pretrained__ model is the path to the __directory__ instead of single files!
 
----
+### Distributed Data Parallel (DDP)
+```yaml
+### ddp config ###
+gpus: [0,1,2,3,4,5,6,7,8] ## The number of GPUS to run the experiment on 
+port: 12355 ## The port number for DDP
+```
 
-To specify 
+### Other configuration
+
+The other configuration can be found in the 
