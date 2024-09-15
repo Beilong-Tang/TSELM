@@ -138,7 +138,10 @@ class Model(nn.Module):
         aux_list = []
         for audio in mix_array:
             audio = audio.unsqueeze(0)  # [1,T]
+            print("mix ", audio.shape)
+            print("regi", regi.shape)
             out_toks = self.forward(audio, None, regi, inference=True)  # [B,N,K]
+            print(out_toks.shape)
             aux = self.recon(out_toks)  # [1, T]
             print(aux.shape)
             aux_list.append(aux)
