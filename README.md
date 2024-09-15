@@ -30,17 +30,48 @@ and comparable results in speech intelligibility.
 ### Model
 To run experiments, we need to download the following pretrained models.
 
-| Name         | Link                                                        | Note                       |
-|--------------|-------------------------------------------------------------|----------------------------|
-| WavLM Large  | https://huggingface.co/microsoft/wavlm-large/tree/main      | Download all whole folder. |
-| Kmeans       | https://huggingface.co/Beilong/TSELM/resolve/main/kmeans_ckpt/kmeans_wavlm_ckpt.tar.gz?download=true  | Download and extract.      |
-| Unit HiFiGAN | https://huggingface.co/Beilong/TSELM/resolve/main/backend_ckpt/hifigan-wavlm-l1-3-7-18-23-k1000-LibriTTS.tar.gz?download=true | Download and extract.      |
+
+<div style="overflow-x:auto; width:100%;">
+  <table style="table-layout:auto; width:100%; border-collapse: collapse;">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Link</th>
+        <th>Note</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>WavLM Large</td>
+        <td style="word-break: break-all; white-space: normal;">
+          <a href="https://huggingface.co/microsoft/wavlm-large/tree/main">https://huggingface.co/microsoft/wavlm-large/tree/main</a>
+        </td>
+        <td>Download the whole folder.</td>
+      </tr>
+      <tr>
+        <td>Kmeans</td>
+        <td style="word-break: break-all; white-space: normal;">
+          <a href="https://huggingface.co/Beilong/TSELM/resolve/main/kmeans_ckpt/kmeans_wavlm_ckpt.tar.gz?download=true">https://huggingface.co/Beilong/TSELM/resolve/main/kmeans_ckpt/kmeans_wavlm_ckpt.tar.gz?download=true</a>
+        </td>
+        <td>Download and extract.</td>
+      </tr>
+      <tr>
+        <td>Unit HiFiGAN</td>
+        <td style="word-break: break-all; white-space: normal;">
+          <a href="https://huggingface.co/Beilong/TSELM/resolve/main/backend_ckpt/hifigan-wavlm-l1-3-7-18-23-k1000-LibriTTS.tar.gz?download=true">https://huggingface.co/Beilong/TSELM/resolve/main/backend_ckpt/hifigan-wavlm-l1-3-7-18-23-k1000-LibriTTS.tar.gz?download=true</a>
+        </td>
+        <td>Download and extract.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
 ## Pretrained Model
 
 Our pretrained TSELM-L can be downloaded [here](https://huggingface.co/Beilong/TSELM/resolve/main/model_ckpt/tselm_l.pth?download=true).
 
 ## Training
+
 
 
 
