@@ -47,6 +47,7 @@ def truc_wav(*audio: torch.Tensor, length):
             res.append(F.pad(a, (0, length - a.size(0)), "constant"))
     return res[0] if len(res) == 1 else res
 
+
 def split_audio(audio, length=48000, pad_last=True):
     """
     audio: [T]

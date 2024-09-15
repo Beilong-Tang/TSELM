@@ -88,7 +88,7 @@ class Model(nn.Module):
         Returns:
             audio: the audio of shape [B, T]
         """
-        toks = toks.unsqueeze(2) #[B, N, 1, K] 
+        toks = toks.unsqueeze(2)  # [B, N, 1, K]
         toks = toks.movedim(-2, -3).contiguous()  # [B,S,N,K]
         rec_sig = self.toks_to_sig(toks.flatten(end_dim=1))  # [BS,T]
         return rec_sig
@@ -134,7 +134,7 @@ class Model(nn.Module):
         regi: [1,T] torch audio 2d used as register audio
         """
         mix_array = split_audio(mix.squeeze(0), 48080)  # [T]
-        regi = truc_wav(regi.squeeze(0), length = 64080).unsqueeze(0)  # [1,T]
+        regi = truc_wav(regi.squeeze(0), length=64080).unsqueeze(0)  # [1,T]
         aux_list = []
         for audio in mix_array:
             audio = audio.unsqueeze(0)  # [1,T]
