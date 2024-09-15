@@ -7,3 +7,4 @@ output
 *.log
 *.tar.gz
 *.ipynb
+*test*
