@@ -39,3 +39,11 @@ To run experiments, we need to download the following pretrained models.
 ## Pretrained Model
 
 Our pretrained TSELM-L can be downloaded [here](https://huggingface.co/Beilong/TSELM/resolve/main/model_ckpt/tselm_l.pth?download=true).
+
+## Training
+
+
+
+
+
+## Evaluation
