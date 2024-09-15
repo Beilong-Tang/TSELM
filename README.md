@@ -34,7 +34,6 @@ Befor running experiments, we need to download the following frozen pretrained m
 | Kmeans       | [Download Kmeans Checkpoint](https://huggingface.co/Beilong/TSELM/resolve/main/kmeans_ckpt/kmeans_wavlm_ckpt.tar.gz?download=true)  | Download and extract.      |
 | Scalable HiFiGAN | [Download HiFiGAN Checkpoint](https://huggingface.co/Beilong/TSELM/resolve/main/backend_ckpt/hifigan-wavlm-l1-3-7-18-23-k1000-LibriTTS.tar.gz?download=true) | Download and extract.      |
 
-For Kmeans and Scalable HiFiGAN, make sure to extract it.
 
 ## Training
 
