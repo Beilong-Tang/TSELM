@@ -39,7 +39,19 @@ Befor running experiments, we need to download the following frozen pretrained m
 
 The training config is specified using `hyperpyyaml` package, which is basically a reflection. 
 
-The config for training `TSELM-L` can be found in [config/tselm_l.yaml](./config/tselm_l.yaml). Before training, you need to specify the config for the frozen pretrained models. Details can be found in [config/tselm_l.yaml](./config/tselm_l.yaml) and [config/README.md](./config/README.md). 
+The config for training `TSELM-L` can be found in [config/tselm_l.yaml](./config/tselm_l.yaml). Before training, you need to specify the config for the frozen pretrained models and other training details. Details can be found in [config/tselm_l.yaml](./config/tselm_l.yaml) and [config/README.md](./config/README.md). 
+
+After configuration, you can run 
+```shell
+## Train the model using the config 
+python train.py --config_path ./config/tselm_l.yaml --log ./log --ckpt_path ./ckpt/tselm_l 
+```
+`--config_path` specifies the path to the config file.
+
+`--log` specifies the log output directory. All logs will be put here.
+
+`--ckpt_path` specifies the checkpoint directory. Training can be resumed using the same checkpoint path. 
+
 
 ## Inference
 To infer our model on libri2mix testset, for example, you can run
