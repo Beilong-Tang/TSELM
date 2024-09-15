@@ -20,6 +20,7 @@ import torch.distributed as dist
 from torch.utils.data import DataLoader
 from hyperpyyaml import load_hyperpyyaml
 from utils.env import AttrDict
+from functools import partial
 
 
 def set_random_seed(seed):
@@ -32,9 +33,9 @@ def set_random_seed(seed):
     torch.backends.cudnn.deterministic = True
 
 
-def seed_worker(worker_id):
+def seed_worker(seed, worker_id):
     worker_seed = torch.initial_seed() % 2**32
-    set_random_seed(worker_seed)
+    set_random_seed(worker_seed + seed)
 
 
 ## ddp process
@@ -64,15 +65,15 @@ def setup_logger(args):
     return logger
 
 
-# def setup_seed(seed, rank):
-#     SEED = int(seed)
-#     random.seed(SEED + rank)
-#     np.random.seed(SEED)
-#     torch.manual_seed(SEED)
-#     torch.cuda.manual_seed_all(SEED)
-#     torch.backends.cudnn.deterministic = True
-#     torch.backends.cudnn.benchmark = False
-#     pass
+def setup_seed(seed, rank):
+    SEED = int(seed) + rank
+    random.seed(SEED)
+    np.random.seed(SEED)
+    torch.manual_seed(SEED)
+    torch.cuda.manual_seed_all(SEED)
+    torch.backends.cudnn.deterministic = True
+    torch.backends.cudnn.benchmark = False
+    return SEED
 
 
 def main(rank, args):
@@ -80,7 +81,7 @@ def main(rank, args):
         config_base = AttrDict(**yaml.load(f, Loader=yaml.BaseLoader))
         config_base.world_size = len(config_base.gpus)
     print(f"rank {rank} of world_size {config_base.world_size} started...")
-    # setup_seed(config_base.seed, rank)
+    seed = setup_seed(config_base.seed, rank)
     setup(rank, config_base.world_size, args.dist_backend, port=int(config_base.port))
     ## logger
     logger = setup_logger(args)
@@ -102,7 +103,7 @@ def main(rank, args):
         sampler=DistributedSampler(dataset=tr_dataset, seed=config.sampler_seed + rank),
         num_workers=config.num_workers,
         collate_fn=config.collate_fn,
-        worker_init_fn=seed_worker,
+        worker_init_fn=partial(seed_worker, seed + rank*10000  ),
     )
     cv_dataset = config.cv_dataset(rank=rank)
     cv_data = DataLoader(
@@ -115,7 +116,7 @@ def main(rank, args):
         shuffle=False,
         num_workers=config.num_workers,
         collate_fn=config.collate_fn,
-        worker_init_fn=seed_worker,
+        worker_init_fn=partial(seed_worker, seed + rank*10000  ),
     )
 
     optim = config.optim(params=filter(lambda p: p.requires_grad, model.parameters()))
