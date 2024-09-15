@@ -10,7 +10,7 @@ cv_clean_path: <path_to_s1.scp>
 hifi_gan_path: <path_to_hifi_gan_ckpt_folder>
 wavlm_path: <path_to_wavlm_ckpt_folder>
 kmeans_path: <path_to_kmeans_ckpt_folder> 
-###
+##############################################
 
 ### ddp config ###
 gpus: [0,1,2,3,4,5,6,7,8] ## The number of GPUS to run the experiment on 

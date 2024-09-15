@@ -28,18 +28,20 @@ and comparable results in speech intelligibility.
 ### Pretrained Model
 Befor running experiments, we need to download the following frozen pretrained models.
 
-| Name         | Link                                                        | Note                       |
+| Name         | Link                                                        | Result                       |
 |--------------|-------------------------------------------------------------|----------------------------|
-| WavLM Large  | https://huggingface.co/microsoft/wavlm-large/tree/main      | Download the whole folder. |
-| Kmeans       | [Download Kmeans Checkpoint](https://huggingface.co/Beilong/TSELM/resolve/main/kmeans_ckpt/kmeans_wavlm_ckpt.tar.gz?download=true)  | Download and extract.      |
-| Scalable HiFiGAN | [Download HiFiGAN Checkpoint](https://huggingface.co/Beilong/TSELM/resolve/main/backend_ckpt/hifigan-wavlm-l1-3-7-18-23-k1000-LibriTTS.tar.gz?download=true) | Download and extract.      |
+| WavLM Large  | https://huggingface.co/microsoft/wavlm-large/tree/main      | wavlm-large |
+| Kmeans       | [Download Kmeans Checkpoint](https://huggingface.co/Beilong/TSELM/resolve/main/kmeans_ckpt/kmeans_wavlm_ckpt.tar.gz?download=true)  | kmeans_ckpt      |
+| Scalable HiFiGAN | [Download HiFiGAN Checkpoint](https://huggingface.co/Beilong/TSELM/resolve/main/backend_ckpt/hifigan-wavlm-l1-3-7-18-23-k1000-LibriTTS.tar.gz?download=true) | hifigan-wavlm-l1-3-7-18-23-k1000-LibriTTS |
+
+Note that for the output of WavLM Large, it is recommended to clone the whole repository or download the whole directory. For Kmeans and Scalable HiFiGAN, we need to extract them after downloading. 
 
 
 ## Training
 
 The training config is specified using `hyperpyyaml` package, which is basically a reflection. 
 
-The config for training `TSELM-L` can be found in [config/tselm_l.yaml](./config/tselm_l.yaml). Before training, you need to specify the config for the frozen pretrained models and other training details. Details can be found in [config/tselm_l.yaml](./config/tselm_l.yaml) and [config/README.md](./config/README.md). 
+The config for training `TSELM-L` can be found in [config/tselm_l.yaml](./config/tselm_l.yaml). Before training, you need to specify the config for the frozen pretrained models and other training details. Details can be found in [config/tselm_l.yaml](./config/tselm_l.yaml) and [config/README.md](./config/README.md). Note that the config for the [pretrained model](#pretrained-model) is the path to the __directory__ instead of single files.  
 
 After configuration, you can run 
 ```shell
