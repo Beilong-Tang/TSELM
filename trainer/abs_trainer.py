@@ -173,7 +173,7 @@ class AbsTrainer:
     def train(self):
         if self.config.get("pre_eval"):
             self._log(f"tesing eval --- ")
-            ## test eval first
+            ## Pre eval using a subset.
             self._eval(
                 DataLoader(
                     Subset(
