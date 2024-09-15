@@ -57,8 +57,7 @@ if __name__ == "__main__":
     parser.add_argument("-scp", "--scp_dir", type=str, required=True)
     parser.add_argument("-config", "--config_path", type=str, required=True)
     parser.add_argument("-ckpt", "--ckpt_path", type=str, required=True)
-    parser.add_argument("-d", "--device", type=str, required=True)
-    parser.add_argument("-o", "--output", type=str, required=True)
+    parser.add_argument("-output", "--output", type=str, required=True)
     parser.add_argument(
         "-gpus",
         "--gpus",
