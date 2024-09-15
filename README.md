@@ -84,5 +84,5 @@ Our TSELM-L checkpoint can be downloaded [here](https://huggingface.co/Beilong/T
 
 You can infer on the libri2mix testset by substituting the `-ckpt` with path to the checkpoint. 
 
-Note that you still need to download the [pretrained models](#pretrained-model) as specified in [config/tselm_l.yaml](./config/tselm_l.yaml).
+Note that you still need to download the [pretrained models](#pretrained-model) and add the corresponding checkpoint folder to [config/tselm_l.yaml](./config/tselm_l.yaml).
 
