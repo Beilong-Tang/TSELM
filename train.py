@@ -81,7 +81,7 @@ def main(rank, args):
         config_base = AttrDict(**yaml.load(f, Loader=yaml.BaseLoader))
         config_base.world_size = len(config_base.gpus)
     print(f"rank {rank} of world_size {config_base.world_size} started...")
-    seed = setup_seed(config_base.seed, rank)
+    setup_seed(config_base.seed, rank)
     setup(rank, config_base.world_size, args.dist_backend, port=int(config_base.port))
     ## logger
     logger = setup_logger(args)
@@ -103,7 +103,7 @@ def main(rank, args):
         sampler=DistributedSampler(dataset=tr_dataset, seed=config.sampler_seed + rank),
         num_workers=config.num_workers,
         collate_fn=config.collate_fn,
-        worker_init_fn=partial(seed_worker, seed + rank * 10000),
+        worker_init_fn=partial(seed_worker, config_base.seed + rank * 10000),
     )
     cv_dataset = config.cv_dataset(rank=rank)
     cv_data = DataLoader(
@@ -116,7 +116,7 @@ def main(rank, args):
         shuffle=False,
         num_workers=config.num_workers,
         collate_fn=config.collate_fn,
-        worker_init_fn=partial(seed_worker, seed + rank * 10000),
+        worker_init_fn=partial(seed_worker, config_base.seed + rank * 10000),
     )
 
     optim = config.optim(params=filter(lambda p: p.requires_grad, model.parameters()))
