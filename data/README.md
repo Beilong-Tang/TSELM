@@ -16,12 +16,12 @@ bash download_librispeech.sh .
 
 For evaluation and testing, our reference speech is randomly selected. 
 To enhance reproducibility and lower the complexity to generate the data, we directly upload
-our data to google drive:
+our data to huggingface:
 
-`libri2mix_dev`: https://drive.google.com/file/d/18o5qOiNbFr0C85DK_5cHbATKT4NDqpLg/view?usp=sharing
+`libri2mix_dev`: https://huggingface.co/datasets/Beilong/libri2mix_clean_target/resolve/main/libri2mix_dev.tar.gz?download=true
 
 
-`libri2mix_test`: https://drive.google.com/file/d/10-4HtAcn6896eAgJovw1FKG83VpczbUW/view?usp=sharing
+`libri2mix_test`: https://huggingface.co/datasets/Beilong/libri2mix_clean_target/resolve/main/libri2mix_test.tar.gz?download=true
 
 After downloading and extracting, you get `libri2mix_dev` and `libri2mix_test` where each 
 folder has:
