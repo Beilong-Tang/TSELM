@@ -7,8 +7,8 @@ sampler_seed: 1234
 seed: 1234
 
 ### ddp config ###
-gpus: [0,1,2,3]
-port: 12356
+gpus: [0,1,2,3,4,5,6,7,8]
+port: 12355
 
 ### data ###
 tr_dataset: !name:dataset.TargetDMDataset ## libri speech DM dataset
@@ -22,9 +22,9 @@ cv_dataset: !name:dataset.TargetDataset
   clean_path: "/public/home/qinxy/bltang/data/LibriMix/Libri2Mix/wav16k/min/lists/test/s1.scp"
   mix_length: 48080
   regi_length: 64080
-batch_size: 64
+batch_size: 128
 num_workers: 2
-batch_size_eval: 128
+batch_size_eval: 256
 
 ### log ###
 log_interval: 5
