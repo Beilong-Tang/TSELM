@@ -32,7 +32,7 @@ To run experiments, we need to download the following pretrained models.
 
 | Name         | Link                                                        | Note                       |
 |--------------|-------------------------------------------------------------|----------------------------|
-| WavLM Large  | https://huggingface.co/microsoft/wavlm-large/tree/main      | Download all whole folder. |
+| WavLM Large  | https://huggingface.co/microsoft/wavlm-large/tree/main      | Download the whole folder. |
 | Kmeans       | [Download Kmeans Checkpoint](https://huggingface.co/Beilong/TSELM/resolve/main/kmeans_ckpt/kmeans_wavlm_ckpt.tar.gz?download=true)  | Download and extract.      |
 | Unit HiFiGAN | [Download HiFiGAN Checkpoint](https://huggingface.co/Beilong/TSELM/resolve/main/backend_ckpt/hifigan-wavlm-l1-3-7-18-23-k1000-LibriTTS.tar.gz?download=true) | Download and extract.      |
 
