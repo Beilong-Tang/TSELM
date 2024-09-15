@@ -1,17 +1,17 @@
-import os.path
+"""
+This code is used in config/tselm_l.yaml to do some manipulation
+"""
 from typing import List
 
-
-def getname_(dir_name, path_name):
-    """
-    This function return a string using the base_name of path_name and join it with the dir_name
-    """
-    return os.path.join(dir_name, os.path.basename(path_name))
-
-
 def len_( ssl_layers: List[int], vocab_size):
+    """
+    Return the total vocabularies
+    """
     return len(ssl_layers) * vocab_size
 
 
 def get_len(array: list):
+    """
+    Return the length of the array
+    """
     return len(array)
