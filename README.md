@@ -5,6 +5,9 @@
 
 Official Implementation of TSELM: Target Speaker Extraction using Discrete Tokens and Language Models. 
 
+To refer to the model class, check [exp/tselm/model.py](./exp/tselm/model.py) directly. Note 
+that the mixed audio is clipped to length 48080 (3.05s x 16khz) and reference speech is clipped to 64080 (4.05s x 16khz ), respectively. 
+
 ## Abstract
 We propose TSELM, a novel target speaker extraction network that leverages discrete tokens and language models.
 TSELM utilizes multiple discretized layers from WavLM as input
