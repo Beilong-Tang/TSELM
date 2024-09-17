@@ -2,6 +2,9 @@
  [**Paper**](https://arxiv.org/abs/2409.07841)
 | [**Demo**](https://beilong-tang.github.io/TSELM.demo/)
 
+[![Paper](https://img.shields.io/badge/Paper-grey?&logo=arxiv)](https://arxiv.org/abs/2409.07841)
+[![Demo](https://img.shields.io/badge/Demo-grey?&logo=youtube)](https://beilong-tang.github.io/TSELM.demo/)
+
 Official Implementation of TSELM: Target Speaker Extraction using Discrete Tokens and Language Models. 
 
 ## Abstract
