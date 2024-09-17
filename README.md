@@ -41,7 +41,7 @@ Note that for the output of WavLM Large, it is recommended to clone the whole re
 
 The training config is specified using `hyperpyyaml` package, which is basically a reflection. 
 
-The config for training `TSELM-L` can be found in [config/tselm_l.yaml](./config/tselm_l.yaml). Before training, you need to specify the config for the frozen pretrained models and other training details. Details can be found in [config/tselm_l.yaml](./config/tselm_l.yaml) and [config/README.md](./config/README.md). Note that the config for the [pretrained model](#pretrained-model) is the path to the __directory__ instead of single files.  
+The config for training `TSELM-L` can be found in [config/tselm_l.yaml](./config/tselm_l.yaml). Before training, you need to specify the config for the frozen pretrained models and other training details. Details can be found in [config/tselm_l.yaml](./config/tselm_l.yaml) and [config/README.md](./config/README.md). 
 
 After configuration, you can run 
 ```shell
