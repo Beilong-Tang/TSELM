@@ -187,13 +187,11 @@ class Model(nn.Module):
         Args:
             mix: mix audio [B,T]
             clean1: clean 1 audio [B,T]
-            clean2: clean 2 audio [B,T]
-            inference: boolean standing for if inference
-            recon: boolean indicating if we need the reconstructed audio or not
+            regi: reference audio [B,T]
+            inference: boolean standing for if inference 
         Returns:
-            if inference is False, return loss, out_toks after permutation [B,N,S,K] and true_toks [B, N,S,K]
-
-            else: return the out_toks [B,N,S,K]
+            if inference is False, return (loss, out_toks [B,N,K], true_toks [B, N,K], and error)
+            else: return the out_toks [B,N,K]
         """
         if self.concat_regi:
             mix_audio = torch.cat([regi, mix, regi], dim=1)  # [B, T]
